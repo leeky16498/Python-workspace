@@ -127,3 +127,60 @@ print(java - python)
 print(java.difference(python))
 
 print("Git test")
+
+#파이선을 할 줄 아는 사람이 늘어났다.
+python.add("이경윤")
+print(python)
+
+#add키워드를 통해서 집합 값 추가가 가능하다.
+
+#자바를 까먹었다.
+java.remove("김태후")
+#집합에서 해당 자료를 제거 가능하다.
+
+
+##자료구조의 변경
+
+menu = {"커피", "우유", "쥬스"}
+print(menu, type(menu))
+#type메서드는 자료형 타입을 출력해준다.
+
+menu = list(menu)
+print(menu, type(menu))
+
+menu = tuple(menu)
+print(menu, type(menu))
+#보는 것처럼 자료형으로 감싸주면 타입을 변경해줄 수 있다.
+
+menu = set(menu)
+print(menu, type(menu))
+#다시 자료형을 지정해줄 수 있다.
+
+from random import *
+
+lst = [1, 2, 3, 4, 5]
+print(lst)
+shuffle(lst)
+print(lst)
+#랜덤하게 값이 섞였다.
+print(sample(lst, 1))
+#리스트 중 렌덤하게 1개의 숫자를 출력하겠다.
+
+users = range(1, 21)
+#1부터 20까지의 숫자를 생성한다.
+print(type(users))
+users = list(users)
+print(users)
+#레인지 자료형이 리스트로 저장이 된다.
+
+shuffle(users)
+print(users)
+#셔플 메서드를 통해서 유저를 섞었다.
+
+winners = sample(users, 4)
+print(winners)
+
+print("==치킨 당첨자==")
+print("치킨 당첨자 : {0}".format(winners[0]))
+print("커피 당첨자 : {0}".format(winners[1:]))
+print("==축하합니다!==")
