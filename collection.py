@@ -125,3 +125,5 @@ print(java.union(python))
 # 차집합(자바는 할줄 알지만 파이선을 할지 모르는 사람)
 print(java - python)
 print(java.difference(python))
+
+print("Git test")
