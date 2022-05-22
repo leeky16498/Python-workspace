@@ -60,3 +60,33 @@ for student in range(1, 11):
         print("오늘 수업 여기까지, {0}는 교무실로 와".format(student))
         break # 반복문을 탈출해버린다.
     print("{0}야 책을 읽어보거라".format(student))
+
+
+student = [1, 2, 3, 4, 5]
+
+print(student)
+
+student = [i+100 for i in student]
+print(student)
+#이렇게 해주면 101, 102, 103, 104, 105가 배열에 들어가있다.
+
+students = ["Ironman", "Thor", "I am groot"]
+students_int = [len(i) for i in students]
+print(students_int)
+# 7, 4, 10을 출력한다.
+
+students_upper = [i.upper() for i in students]
+print(students_upper)
+#전부 대문자로 된 배열을 리턴해준다.
+
+from random import *
+
+cnt = 0 # 총 탑승 승객
+
+for i in range(1, 51):
+    time = randrange(5, 51)
+    if  5 <= time <= 15:
+        print("[0] {0}번쨰 손님 (소요시간 : {1}분)".format(i, time))
+        cnt += 1
+    else:
+        print("[ ] {0}번쨰 손님 (소요시간 : {1}분)".format(i, time))
