@@ -51,3 +51,27 @@ def profile1(name, age = 20, main_lang = "Python"):
 
 profile1("유재석")
 profile1("김태호")
+
+# 키워드 값을 활용한 함수
+
+def profile2(name, age, main_lang):
+    print(name, age, main_lang)
+
+profile2(name = "유재석", main_lang="파이선", age = 25)
+#단순하게 키워드에 해당하는 값이 순서가 섞여도 자연스럽게 잘 들어가게 된다.
+
+
+# 가변인자 함수 호출
+# def profile4(name, age, lang1, lang2, lang3, lang4, lang5):
+#     print("이름 : {0}\t나이 : {1}\t".format(name, age), end = " ")
+#     print(lang1, lang2, lang3, lang4, lang5)
+
+def profile4(name, age, *language):
+    print("이름 : {0}\t나이 : {1}\t".format(name, age), end = " ")
+    for lang in language:
+        print(lang, end = " ")
+    print()
+    #다음과 같이 *표를 해주게 되면 가변 인자로 무엇이든 원하는 만큼 대입을 해주는 것이 가능하다.
+
+profile4("유재석", 20, "자바", "자바", "자바", "자바", "자바")
+profile4("김태호", 23, "자바", "자바")
