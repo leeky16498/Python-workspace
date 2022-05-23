@@ -21,3 +21,11 @@ trip_to2.detail()
 
 # 생성자.py에서 all에 대한 리턴 모듈을 지정해주니 오류가 나지 않는다.
 # 여기에서 처럼 *를 활용해서 모듈 내 모든 기능을 가져온다고 하면 오류가 난다. 그래서 별도의 생성자 모듈을 통해서 가져온다.
+
+import inspect
+import random
+
+print(inspect.getfile(random))
+print(inspect.getfile(thailand))
+
+# 임폴트 된 각 모듈의 경로를 터미널에 나타내준다.
