@@ -17,7 +17,7 @@ try:
     print("나누기 두번째 계산기 입니다.")
     nums = []
     nums.append(int(input("첫 수를 입력해보세요.")))
-    nums,append(int(input("두번째 수도 입력해보세요.")))
+    nums.append(int(input("두번째 수도 입력해보세요.")))
     print("{0} / {1} = {2}".format(nums[0], nums[1], nums[2]))
 
 except Exception as err:
