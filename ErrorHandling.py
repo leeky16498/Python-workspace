@@ -30,12 +30,20 @@ except Exception as err:
 
 ## 스위프트랑 비슷하게, try키워드를 통해서 에러 발생가능성이 있는 함수에 대해 예외구문 처리를 한다.
 
+## 사용자 정의 에러처리를 해보자.
+class BigNumberError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+    
+    def __str__(self):
+        return self.msg
+
 try:
     print("한자리 숫자 나누기 전용 계산기 입니다.")
     num1 = int(input("첫 수는?"))
     num2 = int(input("두 번째 숫자는?"))
     if num1 >= 10 or num2 >= 10:
-        raise BigNumberError
+        raise BigNumberError("입력값 : {0}, {1}".format(num1, num2))
     print("{0} / {1} = {2}".format(num1, num2, int(num1/num2)))
 except ValueError:
     print("한자리 수만 입력하세요.")
@@ -45,14 +53,32 @@ except BigNumberError as err:
 finally:
     print("계산기를 이용해주시어 감사드립니다.")
 
-## 사용자 정의 에러처리를 해보자.
 
-class BigNumberError(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-    
-    def __str__(self):
-        return self.msg
+## finally에 대해서 알아보자. 에러처리에서 에러가 생기든 안생기든 무조건 실행되는 defer같은 구문이다.
+## 에러처리를 통해 런타임 오류를 미리 막을 수 있다.
 
-##finally에 대해서 알아보자. 에러처리에서 에러가 생기든 안생기든 무조건 실행되는 defer같은 구문이다.
+class SoldoutError(Exception):
+    pass
 
+chicken = 10
+wating = 1
+
+while(True):
+    try: 
+        print("남은치킨 {0}".format(chicken))
+        order = int(input("치킨 얼마나 주문하실건가요?"))
+        if order > chicken:
+            print("재료가 부족합니다.")
+        elif order <= 0:
+            raise ValueError
+        else:
+            print("대기번호 {0} 의 {1} 주문이 완료되었습니다.".format(wating, order))
+            wating += 1
+            chicken -= order
+        if chicken == 0:
+            raise SoldoutError
+    except ValueError:
+        print("잘못된 값을 입력했습니다.")
+    except SoldoutError:
+        print("치킨이 모자랍니다.")
+        break #이를 통해서 반복문을 탈출한다.
