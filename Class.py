@@ -134,3 +134,48 @@ vulture.move("11시")
 
 battlecruiser = FlyableAttackUnit("배틀크루저", 500, 25, 3)
 battlecruiser.move("9시")
+
+
+## 패스에 대해서 공부해본다.
+
+class BuildingUnit(Unit):
+    def __init__(self, name, hp, location):
+        pass # 의미는 일단 함수는 완성되지 않았지만 그냥 지나간다. 라는 의미이다.
+
+# 서플라이 디팟 : 건물, 1개 건물 = 8 유닛.
+
+supply_depot = BuildingUnit("서플라이 디폿", 500, "7시")
+
+def game_start():
+    print("새로운 게임을 시작합니다.")
+def game_over():
+    pass
+
+game_start()
+game_over()
+# 다음과 같이 함수 코드를 건너뛰도록 도와준다 : "pass"
+
+class BuildingUnit1(Unit):
+    def __init__(self, name, hp, location):
+        # Unit.__init__(self, name, hp, 0)
+        super().__init__(name, hp, 0)
+        #이렇게 하면 상위 클래스의 생성자를 생성한다. 위의 코드와는 비슷하다. 하지만 다중상속을 하게 된다면?
+        self.location = location
+
+
+class Unit1:
+    def __init__(self):
+        print("유닛1 생성자")
+
+class Flyable1:
+    def __init__(self):
+        print("Flyable 생성자")
+
+class FlyableUnit1:
+    def __init__(self):
+        super().__init__()
+        # 다중상속 클래스에서 다음과 같이 수퍼 메소드를 호출하면 가장 마지막 위치한 상속 클래스 생성자가 호출된다.
+        # 그래서 다중상속에서는 클래스 명칭을 직접적으로 명시해서 초기화를 해야 한다.
+
+
+dropship = FlyableUnit1()
