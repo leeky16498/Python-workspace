@@ -1,4 +1,5 @@
 # 마린 : 공격유닛, 군인. 총을 쏠 수 있다.
+from random import *
 
 name = "마린"
 hp = 40
@@ -179,3 +180,91 @@ class FlyableUnit1:
 
 
 dropship = FlyableUnit1()
+
+class Marine(AttackUnit):
+    def __init__(self):
+        AttackUnit.__init__(self, "마린", 40, 1, 5) 
+
+    #스팀팩을 구현한다.
+    def stimpack(self):
+        if self.hp > 10:
+            self.hp -= 10
+            print("스팀팩을 사용했습니다.")
+        else:
+            print("체력이 부족합니다.")
+    
+class Tank(AttackUnit):
+
+    seize_developed = False # 이 친구는 타입 프로퍼티이다. 고유한 값으로 모든 객체에 일괄적으로 적용될 것이다.
+
+    def __init__(self):
+        AttackUnit.__init__(self, "탱크", 150, 1, 5)
+        self.seize_mode = False
+    
+    def set_seize_mode(self):
+        if Tank.seize_developed == False:
+            print("시즈모드를 업그레이드 해주십시오.")
+            return
+        
+        if self.seize_mode == False:
+            print("시즈모드를 전환합니다.")
+            self.damage *= 2
+            self.seize_mode = True
+        else:
+            self.damage /= 2
+            self.seize_mode = False
+
+def game_start():
+    print("게임이 시작되었습니다.")
+
+def game_over():
+    print("게임이 끝났습니다.")
+
+
+game_start()
+
+m1 = Marine()
+m2 = Marine()
+m3 = Marine()
+m4 = Marine()
+t1 = Tank()
+t2 = Tank()
+t3 = Tank()
+
+attack_units = []
+
+attack_units.append(m1)
+attack_units.append(m2)
+attack_units.append(m3)
+attack_units.append(m4)
+attack_units.append(t1)
+attack_units.append(t2)
+attack_units.append(t3)
+
+# 모든 유닛 1시로 이동
+for unit in attack_units:
+    unit.move("1시")
+
+# 탱크 시즈모드 개발
+
+Tank.seize_developed = True
+print("시즈모드 개발이 완료되었습니다.")
+
+# 공격모드 준비(탱크 : 시즈모드, 탱크 : 시즈모드, 레이스 : 클로킹)
+
+for unit in attack_units:
+    if isinstance(unit, Marine):
+        # isinstance를 통해서 클래스의 인스턴스를 비교 확인한다. 부울 값을 나타낸다. " 지금 유닛이 마린 클래스니?"
+        unit.stimpack()# 마린 클래스면 유닛에다가 스팀팩쓴다.
+    elif isinstance(unit, Tank):
+        unit.set_seize_mode()# 탱크 클래스면 시즈모드 한다.
+
+# 전군 공격
+for unit in attack_units:
+    unit.attack("1시")
+
+# 전군 피해
+for unit in attack_units:
+    unit.damaged(randint(5, 21))# 해당 범위내에서 일반적인 공격을 받는다.
+
+game_over()
