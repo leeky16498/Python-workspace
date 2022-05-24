@@ -124,7 +124,9 @@ print(name, age, hobby)
 my_set = {1, 2, 3, 3, 4, 5, 5} # 리스트는 대괄호로 선언, 집합은 중괄호로 선언한다.
 print(my_set)
 java = {"유재석", "김태후", "양세형"}
-python = set(["유재석", "박명수"]) #다음과 같이 자료형 래핑을 통해서 선언도 가능하다.
+python = set(["유재석", "박명수"]) 
+# 다음과 같이 자료형 래핑을 통해서 선언도 가능하다.
+# 지금에서는 리스트에 set자료형을 입혀서 다음과 같이 리스트로 변환해주었다.
 
 # 자바와 파이선 모두가 가능한 교집합을 찾아보자
 print(java & python)
@@ -163,7 +165,8 @@ print(menu, type(menu))
 
 menu = tuple(menu)
 print(menu, type(menu))
-#보는 것처럼 자료형으로 감싸주면 타입을 변경해줄 수 있다.
+# 보는 것처럼 type 메서드를 사용하게 타입을 확인해 줄 수 있다.
+# type 으로 래핑을 해주면 해당 타입을 변환할 수 있다.
 
 menu = set(menu)
 print(menu, type(menu))
@@ -175,16 +178,18 @@ lst = [1, 2, 3, 4, 5]
 print(lst)
 shuffle(lst)
 print(lst)
-# 셔플 메서드를 사용해주어 랜덤하게 값이 섞였다.
+# 셔플 메서드를 사용해주어 랜덤하게 값이 섞였다. 메서드 파라미터로 리스트 값을 대입해주어야 한다.
+
 print(sample(lst, 1))
-#리스트 중 렌덤하게 1개의 숫자를 출력하겠다.
+#샘플 메서드는 리스트 중 렌덤하게 1개의 숫자를 뽑아준다. 2를 쓰면 두개를 뽑아 줄 것이다.
 
 users = range(1, 21)
 #1부터 20까지의 숫자를 생성한다.
+
 print(type(users))
 users = list(users)
 print(users)
-#레인지 자료형이 리스트로 저장이 된다.
+# 범위를 설정하여 리스트로 감싸주면 자료형이 리스트로 변경되고 해당 레인지 안의 모든 값에 접근이 가능해진다.
 
 shuffle(users)
 print(users)
@@ -195,5 +200,7 @@ print(winners)
 
 print("==치킨 당첨자==")
 print("치킨 당첨자 : {0}".format(winners[0]))
+# 인덱스에도 레인지를 지정해줄 수 있다. 인덱스 레인지는 대괄호에 세미콜론을 통해서 지정해 준다.
+
 print("커피 당첨자 : {0}".format(winners[1:]))
 print("==축하합니다!==")
