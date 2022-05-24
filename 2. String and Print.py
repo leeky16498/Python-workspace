@@ -109,8 +109,14 @@ print("Red\tApple")
 url = "http://naver.com"
 my_str = url.replace("http://", "")
 print(my_str)
-my_str = my_str[:my_str.index(".")]
+my_str = my_str[:my_str.index(".")] 
+# 여기에서 쓰인 [0:0] 연산자는 범위 인덱스 연산자이다.
+#[:3] : 이렇게 써주면 처음부터 인덱스 3까지의 문자열을 가져온다.
+#[3:] : 이렇게 해주면 인덱스 3부터 마지막까지의 문자열을 가져온다.
+
 print(my_str)
 password = my_str[:3] + str(len(my_str)) + str(my_str.count("e")) + "!"
+# 문자열끼리도 연산자를 통해 처리가 가능하지만, 자료형 변환이 필요한 경우에는 키워드를 통해서 래핑을 해줘야 한다.
+
 print(password)
 print("{0}의 비밀번호는 {1}입니다.".format(url, password))
