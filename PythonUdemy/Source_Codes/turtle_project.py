@@ -39,15 +39,14 @@
 # 별을 붙여주시면 모듈 내 모든 속성과 메소드를 사용 가능하다.
 # 말하자면 별도의 인스턴스 접근 없이 바로바로 메서드 사용이 가능하다는 것이다이.
 
-import turtle as tur
-t = tur.Turtle()
-t.shape("turtle")
-
-for i in range(3, 11):
-    for j in range(i):
-        angle = 360/i
-        t.forward(100)
-        t.right(angle)
+# import turtle as tur
+# t = tur.Turtle()
+# t.shape("turtle")
+#
+# for i in range(3, 11):
+#     for j in range(i):
+#         angle = 360/i
+#         t.forward(100)
+#         t.right(angle)
 
 ## 터틀 다양한 도형 그리기 완료
-
