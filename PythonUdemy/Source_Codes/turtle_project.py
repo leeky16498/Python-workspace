@@ -50,3 +50,17 @@
 #         t.right(angle)
 
 ## 터틀 다양한 도형 그리기 완료
+
+from turtle import Turtle, Screen
+
+tim = Turtle()
+src = Screen()
+def move_forward():
+    tim.forward(10)
+
+src.listen()
+src.onkey(key="space", fun=move_forward)
+## 보다시피 함수는 타입으로서 인자로 전달이 가능하다.
+## 파이썬에서 고차함수란 것은 함수를 매개변수로 받는 함수를 고차함수라고 말한다.
+
+src.exitonclick()
