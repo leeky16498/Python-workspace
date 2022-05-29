@@ -34,6 +34,9 @@ to_x = 0
 to_y = 0
 #캐릭터가 이동할 좌표
 
+#캐릭터 이동속도
+character_speed = 0.6
+
 #이벤트 루프
 is_game_running = True # 게임 진행중 여부 확인
 
@@ -54,13 +57,13 @@ while is_game_running:
         
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT: # 왼쪽키를 누르믄 캐릭터가 왼쪽으로 움직이면 된다.
-                to_x -= 5
+                to_x -= character_speed
             elif event.key == pygame.K_RIGHT:
-                to_x +=5
+                to_x += character_speed
             elif event.key == pygame.K_UP:
-                to_y -= 5
+                to_y -= character_speed
             elif event.key == pygame.K_DOWN:
-                to_y += 5
+                to_y += character_speed
         #유저가 키에서 손을 때면, 다음과 같이 처리해라, 방향키를 떼면 캐릭터가 멈추도록 처리
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -68,8 +71,8 @@ while is_game_running:
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 to_y = 0
 
-    character_x_pos += to_x
-    character_y_pos += to_y
+    character_x_pos += to_x * dt
+    character_y_pos += to_y * dt
 
     if character_x_pos < 0:
         character_x_pos = 0
