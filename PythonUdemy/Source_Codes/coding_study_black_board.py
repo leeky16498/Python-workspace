@@ -5,8 +5,9 @@ print(num_range)
 odd_in_num_range = []
 
 for number in num_range:
-    if number%2 == 1:
+    if number % 2 == 1:
         odd_in_num_range.append(number)
 
 print(odd_in_num_range)
 print(sum(odd_in_num_range))
+## 두 수사이의 홀수의 모든 합 구하기.
