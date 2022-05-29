@@ -57,6 +57,17 @@ while is_game_running:
     character_x_pos += to_x
     character_y_pos += to_y
 
+    if character_x_pos < 0:
+        character_x_pos = 0
+    elif character_x_pos > screen_width - character_width:
+        character_x_pos = screen_width - character_width
+# 다음 조건문을 통해서 가로 움직임이 스크린을 벗어나지 않도록 처리.
+
+    if character_y_pos < 0:
+        character_y_pos = 0
+    elif character_y_pos > screen_height - character_height:
+        character_y_pos = screen_height - character_height
+
     screen.fill((0, 0, 255))
     screen.blit(character, (character_x_pos, character_y_pos))
     # screen.blit(background, (0,0)) # 배경 그리기, 매개변수로 백그라운드를 넣어준다.
