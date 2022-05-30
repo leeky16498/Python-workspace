@@ -1,13 +1,20 @@
 from turtle import Turtle
-import time
 
 class Scoreboard(Turtle):
     
     def __init__(self):
         super().__init__()
-        self.title = "current scores"
-        self.penup()
         self.score = 0
-        self.write("Scores: " + str(self.score), True, align = "center")
-        self.write((0, 280), True)
+        self.color("white")
+        self.penup()
+        self.goto(0, 170)
+        self.write(f"Score : {self.score}", align="center", font=("Arial", 24, "normal"))
         self.hideturtle()
+        
+    def update_scoreboard(self):
+        self.write(f"Score : {self.score}", align="center", font=("Arial", 24, "normal"))
+    
+    def increase_score(self):
+        self.clear()
+        self.score += 1
+        self.update_scoreboard()

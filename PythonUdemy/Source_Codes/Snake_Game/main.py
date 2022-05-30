@@ -7,7 +7,7 @@ import time
 
 screen = Screen()
 screen.setup(width=600, height=400)
-screen.bgcolor("blue")
+screen.bgcolor("black")
 screen.title("Snake game")
 screen.tracer(0)
 
@@ -32,6 +32,8 @@ while game_is_on:
     ## 먹이와의 충돌여부를 결정한다.
     ## 터틀의 distance 메서드를 통해서 좌표에 접근여부를 체크한다.
     if snake.head.distance(food) < 15:
+        snake.add_new_body()
+        scoreboard.increase_score()
         food.refresh()
         
 screen.exitonclick()
