@@ -1,13 +1,12 @@
-num1 = input("첫 숫자")
-num2 = input("둘째 숫자")
-num_range = list(range(int(num1), int(num2)))
-print(num_range)
-odd_in_num_range = []
 
-for number in num_range:
-    if number % 2 == 1:
-        odd_in_num_range.append(number)
+id_list = ["muzi", "frodo", "apeach", "neo"]
+reports = ["muzi frodo", "apeach frodo", "frodo neo", "muzi neo", "apeach muzi"]
+k = 2
 
-print(odd_in_num_range)
-print(sum(odd_in_num_range))
-## 두 수사이의 홀수의 모든 합 구하기.
+new_dict = {}
+
+for id in id_list:
+    for report in reports:
+        new_dict[id] = report.split()
+
+print(new_dict)
