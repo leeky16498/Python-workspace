@@ -6,7 +6,7 @@ from scoreboard import Scoreboard
 import time
 
 screen = Screen()
-screen.setup(width=600, height=400)
+screen.setup(width=600, height=600)
 screen.bgcolor("black")
 screen.title("Snake game")
 screen.tracer(0)
@@ -32,8 +32,29 @@ while game_is_on:
     ## 먹이와의 충돌여부를 결정한다.
     ## 터틀의 distance 메서드를 통해서 좌표에 접근여부를 체크한다.
     if snake.head.distance(food) < 15:
-        snake.add_new_body()
-        scoreboard.increase_score()
         food.refresh()
+        snake.extend()
+        scoreboard.increase_score()
         
+    # 벽에 꼬리와 머리의 충돌 여부를 체크한다.
+    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
+        game_is_on = False
+        scoreboard.game_over()
+        
+    # 뱀의 머리가 몸과 부딫혔는지 체크하기.
+    
+    # for segment in snake.segments:
+    #     if segment == snake.head:
+    #         pass
+    #     elif snake.head.distance(segment) < 10:
+    #         game_is_on = False
+    #         scoreboard.game_over()
+    
+    # 슬라이싱을 해본다.[0:0] 다음과 같이 우리가 원하는 자료를 잘라서 가져온다.
+    # 슬라이싱 간에[0:0:1] 해주면 1씩 건너뛰면서 가져온다.
+    for segment in snake.segments[1:]:
+        if snake.head.distance(segment) < 10:
+            game_is_on = False
+            scoreboard.game_over()
+     
 screen.exitonclick()
