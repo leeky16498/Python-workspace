@@ -15,8 +15,8 @@ with open("/Users/kyungyunlee/Desktop/Python_udemy/PythonUdemy/Source_Codes/with
 # 위의 코드들과 동일하게 작동한다.
 
 #이번에는 써보자.
-with open("/Users/kyungyunlee/Desktop/Python_udemy/PythonUdemy/Source_Codes/with_class/my_file.txt", mode="w") as file:
-    file.write("New text is here!")
+with open("my_file.txt", mode="w") as file:
+    file.write("New text is here!!!!!!!!!!!!!!")
 # 읽기 전용에서는 "r" 모드로 써준다.
 # 텍스트가 위의 텍스트로 전부 바뀐다.
 # 모드를 "a"를 쓰면 추가된다.
