@@ -62,7 +62,6 @@ def count_down(count):
         work_sessions = math.floor(reps/2)
         for _ in range(work_sessions):
             marks += "✔"
-        check_marks.config(text=marks)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -88,11 +87,6 @@ reset_button.grid(column=2, row=2)
 
 check_marks = Label(fg=GREEN, bg=YELLOW)
 check_marks.grid(column=1, row=3)
-
-
-
-
-
 
 window.mainloop()
 
