@@ -35,6 +35,14 @@ else:
 finally:
     file.close()
     ##여기는 무조건 이 마지막에 상관없이 실행된다.
-    
+    # raise KeyError 다음같이 커스텀 에러를 직접 발생시킬 수 있다.
     
 ## 조건문처럼 에러를 핸들링해서 프로그램의 강제 종료를 막는다.
+
+height = float(input("give me height"))
+weight = int(input("weight?"))
+
+if height > 3:
+    raise ValueError("human height is too long")
+
+bmi = weight / height**2

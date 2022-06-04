@@ -39,7 +39,7 @@ def save_data():
         is_ok = messagebox.askokcancel(title=field1.get(), message= f"Theses are your details you entered:\nEmail : {field2.get()}\nPassword : {field3.get()}\n Is everything OK to save?")
     
         if is_ok:
-            with open("/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/BOOTCAMP_ANGELA/SOURCE_CODES/PASSWORD_MANAGER/data.txt", "a") as data:
+            with open("/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/BOOTCAMP_ANGELA/SOURCE_CODES/PASSWORD_MANAGER/data.json", "w") as data:
                 data.write("{0} | {1} | {2}\n".format(field1.get(), field2.get(), field3.get()))
                 field1.delete(0, END)
                 field2.delete(0, END)
