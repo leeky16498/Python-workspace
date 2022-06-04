@@ -1,3 +1,4 @@
+import json
 from tkinter import *
 from tkinter import messagebox
 import random
@@ -31,23 +32,53 @@ def password_generated():
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save_data():
-    # messagebox.showinfo(title="Alerts",message="Your information is added well.")
+    website = field1.get()
+    email = field2.get()
+    password = field3.get()
     
-    if len(field1.get()) == 0 or len(field2.get()) == 0 or len(field3.get()) == 0:
-        messagebox.showwarning(title="Warning", message="There is some empty information, Check it please.")
+    new_data = {
+        website: {
+            "email" : email,
+            "password" : password
+        }
+    }
+    
+    if len(website) == 0 or len(password) == 0:
+        messagebox.showinfo(title="Oops!", message="Please make sure you haven't left any fields!")
     else:
-        is_ok = messagebox.askokcancel(title=field1.get(), message= f"Theses are your details you entered:\nEmail : {field2.get()}\nPassword : {field3.get()}\n Is everything OK to save?")
-    
-        if is_ok:
-            with open("/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/BOOTCAMP_ANGELA/SOURCE_CODES/PASSWORD_MANAGER/data.txt", "a") as data:
-                data.write("{0} | {1} | {2}\n".format(field1.get(), field2.get(), field3.get()))
-                field1.delete(0, END)
-                field2.delete(0, END)
-                field3.delete(0, END) 
+        try:
+            with open("/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/BOOTCAMP_ANGELA/SOURCE_CODES/PASSWORD_MANAGER/data.json", "r") as data_file:
+                #Reading old data
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open("/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/BOOTCAMP_ANGELA/SOURCE_CODES/PASSWORD_MANAGER/data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
+        else:
+            #updating data
+            data.update(new_data)
             
+            with open("/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/BOOTCAMP_ANGELA/SOURCE_CODES/PASSWORD_MANAGER/data.json", "w") as data_file:
+                #saving data
+                json.dump(data, data_file, indent=4)
+        finally:
+            field1.delete(0, END)
+            field3.delete(0, END)
     
+# ---------------------------- FIND DATA ------------------------------- #
+def search():
+    website = field1.get()
     
-
+    try:
+        with open("/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/BOOTCAMP_ANGELA/SOURCE_CODES/PASSWORD_MANAGER/data.json", "r") as data_file:
+            #Reading old data
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Notification", message="There is no file yet")
+    else:
+        email = data[website]["email"]
+        password = data[website]["password"]
+        messagebox.showinfo(title="Notification", message=f"your password : {password}\nyour Email : {email}")
+    
 # ---------------------------- UI SETUP ------------------------------- #
 
 
@@ -64,8 +95,11 @@ label1 = Label(text="Website :")
 label1.grid(column=0, row=1)
 
 field1 = Entry(width=35)
-field1.grid(column=1, row=1, columnspan=2)
+field1.grid(column=1, row=1)
 field1.insert(0, "Amazon")
+
+button0 = Button(text="Search", command=search)
+button0.grid(column=2, row=1)
 
 
 label2 = Label(text="Email and Username :")
