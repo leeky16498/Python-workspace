@@ -5,7 +5,6 @@ URL = "https://api.kanye.rest"
 
 ##--------Button Function------##
 def click_button():
-    global sentence
     request = requests.get(url=URL)
     request.raise_for_status()
     data = request.json()
@@ -13,8 +12,6 @@ def click_button():
     quote = data["quote"]
     canvas.itemconfig(canvas_text, text=quote)
     
-
-
 
 ##---------UI SETUP-----------##
 

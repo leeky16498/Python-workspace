@@ -14,6 +14,7 @@ bir_dict = {
 }
 
 print(bir_dict)
+# 이게 모노스페이스 였구나 ㅋㅋㅋ신기하네 ㅋㅋㅋ
 
 if today_tuple in bir_dict:
     bir_person = bir_dict[today_tuple]
