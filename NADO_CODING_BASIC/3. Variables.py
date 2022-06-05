@@ -19,4 +19,3 @@ def checkpoint_ret(gun, soldiers):
     # 중요 포인트는 지역변수와 전역변수는 같지 않고, 다른 존재라는 것이며, 서로 접근할 때는 적절한 키워드를 명시해주어야 한다.
 
 gun = checkpoint_ret(10, 7)
-
