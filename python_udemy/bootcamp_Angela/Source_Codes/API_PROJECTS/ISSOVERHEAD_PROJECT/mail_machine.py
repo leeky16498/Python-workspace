@@ -2,10 +2,10 @@ import smtplib
 from email.mime.text import MIMEText
 
 class Sendemail:
-    def __init__(self, contents):
+    def __init__(self, mail_subject, contents):
         self.my_email = "leeky16498@gmail.com"
         self.my_password = "tfcawoypiogozmwh"
-        self.mail_subject = "금주의 명언 한 줄"
+        self.mail_subject = mail_subject
         self.contents = contents
     
         smtp = smtplib.SMTP('smtp.gmail.com', 587)
