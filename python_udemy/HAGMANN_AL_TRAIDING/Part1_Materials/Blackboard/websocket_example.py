@@ -52,7 +52,14 @@ interval = "1m"
 socket = socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
 
 def on_message(ws, message):
-    print(message)
+    json_data = json.loads(message)
+    candle = json_data["k"]
+    is_candle_closed = candle["x"]
+    
+    print(json_data)
+    print(candle)
+    print(is_candle_closed)
+    
 
 def on_error(ws, error):
     print(error)
