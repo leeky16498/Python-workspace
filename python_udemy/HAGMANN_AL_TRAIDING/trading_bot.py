@@ -56,6 +56,10 @@ class Long_only_trader:
             self.get_most_recent(symbol=self.symbol, interval=self.bar_length, days=historical_days)
             msg = json.loads(message)
             self.stream_candles(msg)
+            
+            if self.stream_candles(msg) >= datetime(2022, 6, 9, 20, 35):
+                ws.close()
+                
 
         ws = websocket.WebSocketApp(socket, on_message=on_message, on_error=on_error, on_close=on_close)
 
@@ -71,6 +75,9 @@ class Long_only_trader:
         close   = float(msg["k"]["c"])
         volume  = float(msg["k"]["v"])
         complete=       msg["k"]["x"]
+        
+        if event_time >= datetime(2022, 6, 9, 20, 32):
+            return event_time
 
         print(".", end="", flush=True)
         # 이상이 있는 경우만 출력한다.
