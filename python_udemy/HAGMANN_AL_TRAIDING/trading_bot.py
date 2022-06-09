@@ -17,7 +17,6 @@ class Long_only_trader:
         self.position = position
         self.trades = 0
         self.trade_values = []
-
         # *****************add strategy-specific attributes here******************
         self.return_thresh = return_thresh
         self.volume_thresh = volume_thresh
