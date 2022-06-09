@@ -48,8 +48,7 @@ m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
 
 cc = "btcgbp"
 interval = "1m"
-
-socket = socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
+socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
 
 def on_message(ws, message):
     json_data = json.loads(message)
