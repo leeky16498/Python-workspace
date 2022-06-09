@@ -4,8 +4,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 
-API_KEY = "OkNTS53iVnQwQ4SvVn9rScwpqGbuX37uzAboebgssjVC53ZPBBOIycYE7tWcgKoA"
-SECRET_KEY = "lIStreQbr4ob7I6x5A7DpOJHIRmb5shNDIve79H56A7kAfhcDoe1qLapUnHF4wt1"
+API_KEY = "mNbKAXQCNwYCpjtHiKDLmFM1O6I05qIpPvRE51T3eh0hpsaTCWVmVJPkcpKh2VsV"
+SECRET_KEY = "if6GJ3j2s08rKIBhRznv7yn9xPVIUJdi5WyFqiJRCiZJPLY3IZOkoIl2EkgScOuJ"
 
 class Long_only_trader:
     def __init__(self, symbol, bar_length, return_thresh, volume_thresh, units, position=0):
@@ -82,20 +82,23 @@ class Long_only_trader:
             self.execute_trades()
 
     def define_strategy(self):
-
         df = self.data.copy()
         # ******************** define your strategy here ************************
         df = df[["Close", "Volume"]].copy()
+        
         df["returns"] = np.log(df.Close / df.Close.shift())
         df["vol_ch"] = np.log(df.Volume.div(df.Volume.shift(1)))
+        
         df.loc[df.vol_ch > 3, "vol_ch"] = np.nan
         df.loc[df.vol_ch < -3, "vol_ch"] = np.nan
+        
         cond1 = df.returns >= self.return_thresh
         cond2 = df.vol_ch.between(self.volume_thresh[0], self.volume_thresh[1])
         df["position"] = 1
         df.loc[cond1 & cond2, "position"] = 0
         # ***********************************************************************
         self.prepared_data = df.copy()
+        
 
     def execute_trades(self):
         if self.prepared_data["position"].iloc[-1] == 1: # if position is long -> go/stay long
@@ -140,17 +143,17 @@ class Long_only_trader:
         print(100 * "-" + "\n")
 
 ##객체 필요 변수들---
-symbol = "BTCUSDT"
+symbol = "BTCGBP"
 bar_length = "1m"
 return_thresh = 0
 volume_thresh = [-3, 3]
-units = 0.01
+units = 0.002
 position = 0
 
-client = Client(api_key=API_KEY, api_secret=SECRET_KEY, tld="com", testnet=True)
+client = Client(api_key=API_KEY, api_secret=SECRET_KEY)
 client.get_account()
 
 trader = Long_only_trader(symbol=symbol, bar_length=bar_length, return_thresh=return_thresh, volume_thresh=volume_thresh
                           , units=units, position=position)
 
-trader.start_trading(historical_days=2)
+trader.start_trading(2)
