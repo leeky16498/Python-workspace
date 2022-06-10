@@ -41,7 +41,7 @@ class Long_only_trader:
 
         self.data = df
 
-    def start_trading(self, historical_days, symbol="btcusdt", intervals="1m"):
+    def start_trading(self, historical_days, symbol="btcgbp", intervals="1m"):
         cc = symbol
         interval = intervals
         socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
@@ -57,10 +57,9 @@ class Long_only_trader:
             msg = json.loads(message)
             self.stream_candles(msg)
             
-            if self.stream_candles(msg) >= datetime(2022, 6, 9, 20, 35):
-                ws.close()
-                
-
+            # if self.stream_candles(msg) >= datetime(2022, 6, 9, 20, 35):
+            #     ws.close()
+    
         ws = websocket.WebSocketApp(socket, on_message=on_message, on_error=on_error, on_close=on_close)
 
         if self.bar_length in self.available_intervals:
@@ -75,9 +74,6 @@ class Long_only_trader:
         close   = float(msg["k"]["c"])
         volume  = float(msg["k"]["v"])
         complete=       msg["k"]["x"]
-        
-        if event_time >= datetime(2022, 6, 9, 20, 32):
-            return event_time
 
         print(".", end="", flush=True)
         # 이상이 있는 경우만 출력한다.
@@ -133,14 +129,12 @@ class Long_only_trader:
             self.trade_values.append(-quote_units)
         elif side == "SELL":
             self.trade_values.append(quote_units)
-        print(4)
         if self.trades % 2 == 0:
             real_profit = round(np.sum(self.trade_values[-2:]), 3)
             self.cum_profits = round(np.sum(self.trade_values), 3)
         else:
             real_profit = 0
             self.cum_profits = round(np.sum(self.trade_values[:-1]), 3)
-        print(5)
         # print trade report
         print(2 * "\n" + 100 * "-")
         print("{} | {}".format(time, going))
