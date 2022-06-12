@@ -170,4 +170,5 @@ client.get_account()
 
 trader = LongOnlyTrader(symbol = symbol, bar_length = bar_length, return_thresh = return_thresh,
                         volume_thresh = volume_thresh, units = units, position = position)
+
 trader.start_trading(historical_days=1/24)
