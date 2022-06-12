@@ -1,8 +1,9 @@
 from binance.client import Client
-import websocket, json
+from binance import ThreadedWebsocketManager
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+import websocket, json
 import time
 
 ##바이낸스 API
@@ -33,7 +34,7 @@ class Long_short_trader:
     def get_most_recent(self, symbol, interval, days):
     
         now = datetime.utcnow()
-        past = str(now - timedelta(days = days))
+        past = str(now - timedelta(days=days))
     
         bars = client.get_historical_klines(symbol = symbol, interval = interval,
                                             start_str = past, end_str = None, limit = 1000)
@@ -50,9 +51,9 @@ class Long_short_trader:
         
         self.data = df
 
-    def start_trading(self, historical_days, symbol="btcusdt", intervals="1m"):
+    def start_trading(self, historical_days, symbol="btcusdt"):
         cc = symbol
-        interval = intervals
+        interval = self.bar_length
         socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
 
         def on_error(ws, error):
@@ -129,32 +130,32 @@ class Long_short_trader:
         if self.prepared_data["position"].iloc[-1] == 1: # if position is long -> go/stay long
             if self.position == 0:
                 order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING LONG")  
+                self.report_trade(order, "매수하면서 롱포지션으로 갑니다.")  
             elif self.position == -1:
                 order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING NEUTRAL")
+                self.report_trade(order, "매수하면서 중립포지션으로 갑니다.")
                 time.sleep(0.1)
                 order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING LONG")
+                self.report_trade(order, "바로 이어서 추가 매수를 수행합니다.")
             self.position = 1
         elif self.prepared_data["position"].iloc[-1] == 0: # if position is neutral -> go/stay neutral
             if self.position == 1:
                 order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING NEUTRAL") 
+                self.report_trade(order, "매도하면서 중립 포지션으로 갑니다.") 
             elif self.position == -1:
                 order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING NEUTRAL") 
+                self.report_trade(order, "바로 이어서 추가 매수를 수행합니다.") 
             self.position = 0
         if self.prepared_data["position"].iloc[-1] == -1: # if position is short -> go/stay short
             if self.position == 0:
                 order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING SHORT") 
+                self.report_trade(order, "매도하면서 숏포지션으로 갑니다.") 
             elif self.position == 1:
                 order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING NEUTRAL")
+                self.report_trade(order, "매도하면서 중립포지션으로 갑니다.")
                 time.sleep(0.1)
                 order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING SHORT")
+                self.report_trade(order, "이어서 추가 매도를 수행합니다.")
             self.position = -1
 
     def report_trade(self, order, going):
@@ -167,7 +168,6 @@ class Long_short_trader:
         
         # calculate trading profits
         self.trades += 1
-        
         if side == "BUY":
             self.trade_values.append(-quote_units)
         elif side == "SELL":
@@ -183,14 +183,14 @@ class Long_short_trader:
         # print trade report
         print(2 * "\n" + 100* "-")
         print("{} | {}".format(time, going)) 
-        print("{} | Base_Units = {} | Quote_Units = {} | Price = {} ".format(time, base_units, quote_units, price))
-        print("{} | Profit = {} | CumProfits = {} ".format(time, real_profit, self.cum_profits))
+        print("{} | Base_Units = {} | Quote_Units = {} |  = {} ".format(time, base_units, quote_units, price))
+        print("{} | 트레이딩 수익률 = {} | 누적수익률 = {} ".format(time, real_profit, self.cum_profits))
         print(100 * "-" + "\n")
 
 ##객체 필요 변수들---
 symbol = "BTCUSDT" 
 bar_length = "1m"
-return_thresh = [-0.08054, 0.3672]
+return_thresh = [-0.0001, 0.0001]
 volume_thresh = [-3, 3]
 units = 0.001
 position = 0
