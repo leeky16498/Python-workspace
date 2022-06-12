@@ -4,10 +4,10 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 
-API_KEY = "mNbKAXQCNwYCpjtHiKDLmFM1O6I05qIpPvRE51T3eh0hpsaTCWVmVJPkcpKh2VsV"
-SECRET_KEY = "if6GJ3j2s08rKIBhRznv7yn9xPVIUJdi5WyFqiJRCiZJPLY3IZOkoIl2EkgScOuJ"
+api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
 
-class Long_only_trader:
+class Long_short_trader:
     def __init__(self, symbol, bar_length, return_thresh, volume_thresh, units, position=0):
         self.symbol = symbol
         self.bar_length = bar_length
@@ -56,14 +56,11 @@ class Long_only_trader:
             self.get_most_recent(symbol=self.symbol, interval=self.bar_length, days=historical_days)
             msg = json.loads(message)
             self.stream_candles(msg)
-            
-            # if self.stream_candles(msg) >= datetime(2022, 6, 9, 20, 35):
-            #     ws.close()
     
-        ws = websocket.WebSocketApp(socket, on_message=on_message, on_error=on_error, on_close=on_close)
+        self.ws = websocket.WebSocketApp(socket, on_message=on_message, on_error=on_error, on_close=on_close)
 
         if self.bar_length in self.available_intervals:
-            ws.run_forever()
+            self.ws.run_forever()
 
     def stream_candles(self, msg):
         event_time = pd.to_datetime(msg["E"], unit = "ms")
@@ -74,6 +71,19 @@ class Long_only_trader:
         close   = float(msg["k"]["c"])
         volume  = float(msg["k"]["v"])
         complete=       msg["k"]["x"]
+        
+        if self.trades >= 5:
+            self.ws.close()
+            if self.position == 1:
+                order = client.create_order(symbol=self.symbol, side="SELL", type="MARKET", quantity = self.units)
+                self.report_trade(order, "GOING NEUTRAL AND STOP")
+                self.position = 0
+            elif self.position == -1:
+                order = client.create_order(symbol=self.symbol, side="BUY", type="MARKET", quantity = self.units)
+                self.report_trade(order, "GOING NEUTRAL AND STOP")
+                self.position = 0
+            else:
+                print("STOP")
 
         print(".", end="", flush=True)
         # 이상이 있는 경우만 출력한다.
@@ -106,13 +116,33 @@ class Long_only_trader:
         if self.prepared_data["position"].iloc[-1] == 1: # if position is long -> go/stay long
             if self.position == 0:
                 order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
+                self.report_trade(order, "GOING LONG")  
+            elif self.position == -1:
+                order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
+                self.report_trade(order, "GOING NEUTRAL")
+                time.sleep(0.1)
+                order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
                 self.report_trade(order, "GOING LONG")
             self.position = 1
         elif self.prepared_data["position"].iloc[-1] == 0: # if position is neutral -> go/stay neutral
             if self.position == 1:
                 order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING NEUTRAL")
+                self.report_trade(order, "GOING NEUTRAL") 
+            elif self.position == -1:
+                order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
+                self.report_trade(order, "GOING NEUTRAL") 
             self.position = 0
+        if self.prepared_data["position"].iloc[-1] == -1: # if position is short -> go/stay short
+            if self.position == 0:
+                order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
+                self.report_trade(order, "GOING SHORT") 
+            elif self.position == 1:
+                order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
+                self.report_trade(order, "GOING NEUTRAL")
+                time.sleep(0.1)
+                order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
+                self.report_trade(order, "GOING SHORT")
+            self.position = -1
 
     def report_trade(self, order, going):
         #extract data from order object
@@ -124,7 +154,7 @@ class Long_only_trader:
 
         #calculating trading profits
         self.trades += 1
-
+        
         if side == "BUY":
             self.trade_values.append(-quote_units)
         elif side == "SELL":
@@ -138,22 +168,22 @@ class Long_only_trader:
         # print trade report
         print(2 * "\n" + 100 * "-")
         print("{} | {}".format(time, going))
-        print("{} | Base_Units = {} | Quote_Units = {} | Price = {} ".format(time, base_units, quote_units, price))
-        print("{} | Profit = {} | CumProfits = {} ".format(time, real_profit, self.cum_profits))
+        print("{} | Base_Units = {} | Quote_Units = {} | 가격 = {} ".format(time, base_units, quote_units, price))
+        print("{} | 수익률 = {} | 누적수익률 = {} ".format(time, real_profit, self.cum_profits))
         print(100 * "-" + "\n")
 
 ##객체 필요 변수들---
 symbol = "BTCGBP"
 bar_length = "1m"
-return_thresh = 0
+return_thresh = [-0.08054, 0.3672]
 volume_thresh = [-3, 3]
-units = 0.002
+units = 0.001
 position = 0
 
-client = Client(api_key=API_KEY, api_secret=SECRET_KEY)
+client = Client(api_key=api_key, api_secret=secret_key)
 client.get_account()
 
-trader = Long_only_trader(symbol=symbol, bar_length=bar_length, return_thresh=return_thresh, volume_thresh=volume_thresh
+trader = Long_short_trader(symbol=symbol, bar_length=bar_length, return_thresh=return_thresh, volume_thresh=volume_thresh
                           , units=units, position=position)
 
-trader.start_trading(2)
+trader.start_trading(historical_days=1/24)

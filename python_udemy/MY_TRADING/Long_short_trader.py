@@ -156,6 +156,7 @@ class LongShortTrader():
         
         # calculate trading profits
         self.trades += 1
+        
         if side == "BUY":
             self.trade_values.append(-quote_units)
         elif side == "SELL":
