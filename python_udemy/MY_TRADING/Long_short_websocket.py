@@ -86,11 +86,11 @@ class Long_short_trader:
             self.ws.close()
             if self.position == 1:
                 order = client.create_order(symbol=self.symbol, side="SELL", type="MARKET", quantity = self.units)
-                self.report_trade(order, "GOING NEUTRAL AND STOP")
+                self.report_trade(order, "매도하면서 최종 거래를 마칩니다.")
                 self.position = 0
             elif self.position == -1:
                 order = client.create_order(symbol=self.symbol, side="BUY", type="MARKET", quantity = self.units)
-                self.report_trade(order, "GOING NEUTRAL AND STOP")
+                self.report_trade(order, "매수하면서 최종 거래를 마칩니다.")
                 self.position = 0
             else:
                 print("STOP")
@@ -190,7 +190,7 @@ class Long_short_trader:
 ##객체 필요 변수들---
 symbol = "BTCUSDT" 
 bar_length = "1m"
-return_thresh = [-0.0001, 0.0001]
+return_thresh = [-0.00001, 0.00001]
 volume_thresh = [-3, 3]
 units = 0.001
 position = 0

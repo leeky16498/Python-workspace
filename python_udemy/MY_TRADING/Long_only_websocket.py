@@ -46,7 +46,7 @@ class Long_only_trader:
 
         self.data = df
 
-    def start_trading(self, historical_days, symbol="btcgbp", intervals="1m"):
+    def start_trading(self, historical_days, symbol="btcusdt", intervals="1m"):
         cc = symbol
         interval = intervals
         socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
@@ -61,14 +61,11 @@ class Long_only_trader:
             self.get_most_recent(symbol=self.symbol, interval=self.bar_length, days=historical_days)
             msg = json.loads(message)
             self.stream_candles(msg)
-            
-            # if self.stream_candles(msg) >= datetime(2022, 6, 9, 20, 35):
-            #     ws.close()
     
-        ws = websocket.WebSocketApp(socket, on_message=on_message, on_error=on_error, on_close=on_close)
+        self.ws = websocket.WebSocketApp(socket, on_message=on_message, on_error=on_error, on_close=on_close)
 
         if self.bar_length in self.available_intervals:
-            ws.run_forever()
+            self.ws.run_forever()
 
     def stream_candles(self, msg):
         event_time = pd.to_datetime(msg["E"], unit = "ms")
@@ -79,6 +76,10 @@ class Long_only_trader:
         close   = float(msg["k"]["c"])
         volume  = float(msg["k"]["v"])
         complete=       msg["k"]["x"]
+        
+        if self.trades >= 5:
+            self.ws.close()
+            print("거래 횟수 5회를 달성하여 프로그램을 종료합니다.")
 
         print(".", end="", flush=True)
         # 이상이 있는 경우만 출력한다.
@@ -111,12 +112,12 @@ class Long_only_trader:
         if self.prepared_data["position"].iloc[-1] == 1: # if position is long -> go/stay long
             if self.position == 0:
                 order = client.create_order(symbol = self.symbol, side = "BUY", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING LONG")
+                self.report_trade(order, "매수하면서 매수포지션으로 갑니다.")
             self.position = 1
         elif self.prepared_data["position"].iloc[-1] == 0: # if position is neutral -> go/stay neutral
             if self.position == 1:
                 order = client.create_order(symbol = self.symbol, side = "SELL", type = "MARKET", quantity = self.units)
-                self.report_trade(order, "GOING NEUTRAL")
+                self.report_trade(order, "매도하면서 중립포지션으로 갑니다.")
             self.position = 0
 
     def report_trade(self, order, going):
@@ -143,12 +144,12 @@ class Long_only_trader:
         # print trade report
         print(2 * "\n" + 100 * "-")
         print("{} | {}".format(time, going))
-        print("{} | Base_Units = {} | Quote_Units = {} | Price = {} ".format(time, base_units, quote_units, price))
-        print("{} | Profit = {} | CumProfits = {} ".format(time, real_profit, self.cum_profits))
+        print("{} | 거래 매수량(Base_Unit) = {} | Quote_Units = {} | 현재 시가 = {} ".format(time, base_units, quote_units, price))
+        print("{} | 거래 수익률 = {} | 누적 거래 수익률 = {} ".format(time, real_profit, self.cum_profits))
         print(100 * "-" + "\n")
 
 ##객체 필요 변수들---
-symbol = "BTCGBP"
+symbol = "BTCUSDT"
 bar_length = "1m"
 return_thresh = 0
 volume_thresh = [-3, 3]
@@ -166,4 +167,4 @@ client.get_account()
 trader = Long_only_trader(symbol=symbol, bar_length=bar_length, return_thresh=return_thresh, volume_thresh=volume_thresh
                           , units=units, position=position)
 
-trader.start_trading(2)
+trader.start_trading(1/24)
