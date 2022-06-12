@@ -3,45 +3,54 @@ import websocket, json
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+import time
 
-api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
-secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+##바이낸스 API
+# api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+# secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+
+##테스트넷 API
+api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
+secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
 
 class Long_short_trader:
-    def __init__(self, symbol, bar_length, return_thresh, volume_thresh, units, position=0):
+    
+    def __init__(self, symbol, bar_length, return_thresh, volume_thresh, units, position = 0):
+        
         self.symbol = symbol
         self.bar_length = bar_length
-        self.available_intervals = ["1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d",
-                                    "1w", "1M"]
+        self.available_intervals = ["1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d", "1w", "1M"]
         self.units = units
         self.position = position
-        self.trades = 0
+        self.trades = 0 
         self.trade_values = []
-        # *****************add strategy-specific attributes here******************
+        
+        #*****************add strategy-specific attributes here******************
         self.return_thresh = return_thresh
         self.volume_thresh = volume_thresh
-        # ************************************************************************
+        #************************************************************************
 
     def get_most_recent(self, symbol, interval, days):
+    
         now = datetime.utcnow()
-        past = str(now - timedelta(days=days))
-
-        bars = client.get_historical_klines(symbol=symbol, interval=interval,
-                                            start_str=past, end_str=None, limit=1000)
+        past = str(now - timedelta(days = days))
+    
+        bars = client.get_historical_klines(symbol = symbol, interval = interval,
+                                            start_str = past, end_str = None, limit = 1000)
         df = pd.DataFrame(bars)
-        df["Date"] = pd.to_datetime(df.iloc[:, 0], unit="ms")
+        df["Date"] = pd.to_datetime(df.iloc[:,0], unit = "ms")
         df.columns = ["Open Time", "Open", "High", "Low", "Close", "Volume",
                       "Clos Time", "Quote Asset Volume", "Number of Trades",
                       "Taker Buy Base Asset Volume", "Taker Buy Quote Asset Volume", "Ignore", "Date"]
         df = df[["Date", "Open", "High", "Low", "Close", "Volume"]].copy()
-        df.set_index("Date", inplace=True)
+        df.set_index("Date", inplace = True)
         for column in df.columns:
-            df[column] = pd.to_numeric(df[column], errors="coerce")
-        df["Complete"] = [True for row in range(len(df) - 1)] + [False]
-
+            df[column] = pd.to_numeric(df[column], errors = "coerce")
+        df["Complete"] = [True for row in range(len(df)-1)] + [False]
+        
         self.data = df
 
-    def start_trading(self, historical_days, symbol="btcgbp", intervals="1m"):
+    def start_trading(self, historical_days, symbol="btcusdt", intervals="1m"):
         cc = symbol
         interval = intervals
         socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
@@ -89,26 +98,30 @@ class Long_short_trader:
         # 이상이 있는 경우만 출력한다.
         self.data.loc[start_time] = [first, high, low, close, volume, complete]
 
-        if complete:
+        if complete == True:
             self.define_strategy()
             self.execute_trades()
 
     def define_strategy(self):
-        df = self.data.copy()
-        # ******************** define your strategy here ************************
-        df = df[["Close", "Volume"]].copy()
         
+        df = self.data.copy()
+        
+        #******************** define your strategy here ************************
+        df = df[["Close", "Volume"]].copy()
         df["returns"] = np.log(df.Close / df.Close.shift())
         df["vol_ch"] = np.log(df.Volume.div(df.Volume.shift(1)))
-        
         df.loc[df.vol_ch > 3, "vol_ch"] = np.nan
-        df.loc[df.vol_ch < -3, "vol_ch"] = np.nan
+        df.loc[df.vol_ch < -3, "vol_ch"] = np.nan  
         
-        cond1 = df.returns >= self.return_thresh
+        cond1 = df.returns <= self.return_thresh[0]
         cond2 = df.vol_ch.between(self.volume_thresh[0], self.volume_thresh[1])
-        df["position"] = 1
-        df.loc[cond1 & cond2, "position"] = 0
-        # ***********************************************************************
+        cond3 = df.returns >= self.return_thresh[1]
+        
+        df["position"] = 0
+        df.loc[cond1 & cond2, "position"] = 1
+        df.loc[cond3 & cond2, "position"] = -1
+        #***********************************************************************
+        
         self.prepared_data = df.copy()
         
 
@@ -147,40 +160,47 @@ class Long_short_trader:
     def report_trade(self, order, going):
         #extract data from order object
         side = order["side"]
-        time = pd.to_datetime(order["transactTime"], unit="ms")
+        time = pd.to_datetime(order["transactTime"], unit = "ms")
         base_units = float(order["executedQty"])
         quote_units = float(order["cummulativeQuoteQty"])
         price = round(quote_units / base_units, 5)
-
-        #calculating trading profits
+        
+        # calculate trading profits
         self.trades += 1
         
         if side == "BUY":
             self.trade_values.append(-quote_units)
         elif side == "SELL":
-            self.trade_values.append(quote_units)
+            self.trade_values.append(quote_units) 
+        
         if self.trades % 2 == 0:
-            real_profit = round(np.sum(self.trade_values[-2:]), 3)
+            real_profit = round(np.sum(self.trade_values[-2:]), 3) 
             self.cum_profits = round(np.sum(self.trade_values), 3)
-        else:
+        else: 
             real_profit = 0
             self.cum_profits = round(np.sum(self.trade_values[:-1]), 3)
+        
         # print trade report
-        print(2 * "\n" + 100 * "-")
-        print("{} | {}".format(time, going))
-        print("{} | Base_Units = {} | Quote_Units = {} | 가격 = {} ".format(time, base_units, quote_units, price))
-        print("{} | 수익률 = {} | 누적수익률 = {} ".format(time, real_profit, self.cum_profits))
+        print(2 * "\n" + 100* "-")
+        print("{} | {}".format(time, going)) 
+        print("{} | Base_Units = {} | Quote_Units = {} | Price = {} ".format(time, base_units, quote_units, price))
+        print("{} | Profit = {} | CumProfits = {} ".format(time, real_profit, self.cum_profits))
         print(100 * "-" + "\n")
 
 ##객체 필요 변수들---
-symbol = "BTCGBP"
+symbol = "BTCUSDT" 
 bar_length = "1m"
 return_thresh = [-0.08054, 0.3672]
 volume_thresh = [-3, 3]
 units = 0.001
 position = 0
 
-client = Client(api_key=api_key, api_secret=secret_key)
+#바이낸스 직렬
+# client = Client(api_key=api_key, api_secret=secret_key, tld="com")
+
+#테스트넷 직렬
+client = Client(api_key=api_key, api_secret=secret_key, tld="com", testnet=True)
+
 client.get_account()
 
 trader = Long_short_trader(symbol=symbol, bar_length=bar_length, return_thresh=return_thresh, volume_thresh=volume_thresh

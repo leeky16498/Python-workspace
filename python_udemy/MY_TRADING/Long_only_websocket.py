@@ -4,8 +4,13 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 
-api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
-secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+##바이낸스 API
+# api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+# secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+
+##테스트넷 API
+api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
+secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
 
 class Long_only_trader:
     def __init__(self, symbol, bar_length, return_thresh, volume_thresh, units, position=0):
@@ -150,7 +155,12 @@ volume_thresh = [-3, 3]
 units = 0.002
 position = 0
 
-client = Client(api_key=api_key, api_secret=secret_key)
+#바이낸스 직렬
+# client = Client(api_key=api_key, api_secret=secret_key, tld="com")
+
+#테스트넷 직렬
+client = Client(api_key=api_key, api_secret=secret_key, tld="com", testnet=True)
+
 client.get_account()
 
 trader = Long_only_trader(symbol=symbol, bar_length=bar_length, return_thresh=return_thresh, volume_thresh=volume_thresh

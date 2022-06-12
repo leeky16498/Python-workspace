@@ -5,6 +5,14 @@ import numpy as np
 from datetime import datetime, timedelta
 import time
 
+##바이낸스 API
+# api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+# secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+
+##테스트넷 API
+api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
+secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
+
 class LongShortTrader():
     
     def __init__(self, symbol, bar_length, return_thresh, volume_thresh, units, position = 0):
@@ -176,9 +184,6 @@ class LongShortTrader():
         print("{} | Profit = {} | CumProfits = {} ".format(time, real_profit, self.cum_profits))
         print(100 * "-" + "\n")
 
-api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
-secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
-
 client = Client(api_key = api_key, api_secret = secret_key, tld = "com")
 
 symbol = "BTCGBP"
@@ -187,6 +192,12 @@ return_thresh = [-0.08054, 0.3672]
 volume_thresh = [-3, 3]
 units = 0.001
 position = 0
+
+#바이낸스 직렬
+# client = Client(api_key=api_key, api_secret=secret_key, tld="com")
+
+#테스트넷 직렬
+client = Client(api_key=api_key, api_secret=secret_key, tld="com", testnet=True)
 
 client.get_account()
 

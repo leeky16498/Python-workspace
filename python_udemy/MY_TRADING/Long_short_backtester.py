@@ -6,6 +6,14 @@ import warnings
 warnings.filterwarnings("ignore")
 plt.style.use("seaborn")
 
+##바이낸스 API
+# api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+# secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+
+##테스트넷 API
+api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
+secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
+
 
 class Long_Short_Backtester():
     ''' Class for the vectorized backtesting of simple Long-Short trading strategies.

@@ -6,8 +6,13 @@ import numpy as np
 from datetime import datetime, timedelta
 import time
 
-api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
-secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+##바이낸스 API
+# api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+# secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+
+##테스트넷 API
+api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
+secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
 
 client = Client(api_key = api_key, api_secret = secret_key, tld = "com")
 
@@ -167,7 +172,14 @@ volume_thresh = [-3, 3]
 units = 0.001
 position = 0
 
+#바이낸스 직렬
+# client = Client(api_key=api_key, api_secret=secret_key, tld="com")
+
+#테스트넷 직렬
+client = Client(api_key=api_key, api_secret=secret_key, tld="com", testnet=True)
+
 client.get_account()
+
 trader = LongOnlyTrader(symbol=symbol, bar_length=bar_length, return_thresh=return_thresh, volume_thresh=volume_thresh,
                         units=units, position=position)
 trader.start_trading(historical_days=1/24)
