@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from itertools import product
 import warnings
+
 warnings.filterwarnings("ignore")
 plt.style.use("seaborn")
 
@@ -281,7 +282,7 @@ class Long_Short_Backtester():
             return self.calculate_cagr(series) / self.calculate_annualized_std(series)
         
            
-test = Long_Short_Backtester(filepath="BTC-GBP.csv", symbol="BTCGBP", start="2020-01-01",end="2022-06-11", tc=-0.00085)
+test = Long_Short_Backtester(filepath="MY_TRADING/BTC-GBP.csv", symbol="BTCGBP", start="2020-01-01",end="2022-06-11", tc=-0.00085)
 # print(test.data)
 
 

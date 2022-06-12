@@ -7,12 +7,12 @@ import websocket, json
 import time
 
 ##바이낸스 API
-# api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
-# secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
 
 ##테스트넷 API
-api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
-secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
+# api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
+# secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
 
 class Long_short_trader:
     
@@ -51,7 +51,7 @@ class Long_short_trader:
         
         self.data = df
 
-    def start_trading(self, historical_days, symbol="btcusdt"):
+    def start_trading(self, historical_days, symbol="btcgbp"):
         cc = symbol
         interval = self.bar_length
         socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
@@ -188,18 +188,18 @@ class Long_short_trader:
         print(100 * "-" + "\n")
 
 ##객체 필요 변수들---
-symbol = "BTCUSDT" 
+symbol = "BTCGBP" 
 bar_length = "1m"
-return_thresh = [-0.00001, 0.00001]
+return_thresh = [-0.08054, 0.3672]
 volume_thresh = [-3, 3]
-units = 0.001
+units = 0.002
 position = 0
 
 #바이낸스 직렬
 # client = Client(api_key=api_key, api_secret=secret_key, tld="com")
 
 #테스트넷 직렬
-client = Client(api_key=api_key, api_secret=secret_key, tld="com", testnet=True)
+client = Client(api_key=api_key, api_secret=secret_key, tld="com")
 
 client.get_account()
 
