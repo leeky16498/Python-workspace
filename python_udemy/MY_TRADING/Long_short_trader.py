@@ -175,8 +175,8 @@ class LongShortTrader():
         print("{} | Profit = {} | CumProfits = {} ".format(time, real_profit, self.cum_profits))
         print(100 * "-" + "\n")
 
-api_key = "L3mgjw7A1WRgCNjhAwrw52vgnGUcMUMEuHYuJBUTSnkunwhCNIRg0T3S8y4TjG0p"
-secret_key = "0iEioR0tPeFs28dRfglGTBg3rCk3vnceXdK08NKg8Zo6zEgPpQun3JxmK4tPtMmE"
+api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
 
 client = Client(api_key = api_key, api_secret = secret_key, tld = "com")
 
@@ -191,4 +191,5 @@ client.get_account()
 
 trader = LongShortTrader(symbol = symbol, bar_length = bar_length, return_thresh = return_thresh,
                         volume_thresh = volume_thresh, units = units, position = position)
+
 trader.start_trading(historical_days=1/24)

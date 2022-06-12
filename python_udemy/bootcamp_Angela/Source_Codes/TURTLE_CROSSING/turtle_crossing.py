@@ -1,4 +1,4 @@
-from ast import walk
+
 from turtle import Turtle, Screen
 from walker import Walker
 from car import Cars
@@ -36,7 +36,7 @@ while is_game_on:
             car.reset_location()
         
         if car.distance(walker) < 20:
-            print("game over")
+            print("game over") 
     
     if walker.ycor() >= 380:
         

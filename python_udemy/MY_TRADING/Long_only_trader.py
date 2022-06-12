@@ -1,9 +1,15 @@
 from binance.client import Client
 from binance import ThreadedWebsocketManager
+from matplotlib.pyplot import hist
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import time
+
+api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
+secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
+
+client = Client(api_key = api_key, api_secret = secret_key, tld = "com", testnet=True)
 
 class LongOnlyTrader():
     
@@ -154,21 +160,14 @@ class LongOnlyTrader():
         print(100 * "-" + "\n")
         
 
-api_key = "L3mgjw7A1WRgCNjhAwrw52vgnGUcMUMEuHYuJBUTSnkunwhCNIRg0T3S8y4TjG0p"
-secret_key = "0iEioR0tPeFs28dRfglGTBg3rCk3vnceXdK08NKg8Zo6zEgPpQun3JxmK4tPtMmE"
-
-client = Client(api_key = api_key, api_secret = secret_key, tld = "com")
-
-symbol = "BTCGBP"
+symbol = "BTCUSDT"
 bar_length = "1m"
-return_thresh = [-0.0001, 0.0001]
+return_thresh = [-0.08054, 0.3672]
 volume_thresh = [-3, 3]
 units = 0.001
 position = 0
 
 client.get_account()
-
-trader = LongOnlyTrader(symbol = symbol, bar_length = bar_length, return_thresh = return_thresh,
-                        volume_thresh = volume_thresh, units = units, position = position)
-
+trader = LongOnlyTrader(symbol=symbol, bar_length=bar_length, return_thresh=return_thresh, volume_thresh=volume_thresh,
+                        units=units, position=position)
 trader.start_trading(historical_days=1/24)
