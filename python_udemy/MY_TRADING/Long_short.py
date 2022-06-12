@@ -234,7 +234,6 @@ class Long_Short_Backtester():
         print("Annualized Mean:             {}".format(ann_mean))
         print("Annualized Std:              {}".format(ann_std))
         print("Sharpe Ratio:                {}".format(sharpe))
-        
         print(100 * "=")
         
     def calculate_multiple(self, series):
@@ -274,9 +273,10 @@ class Long_Short_Backtester():
             return self.calculate_cagr(series) / self.calculate_annualized_std(series)
         
            
-test = Long_Short_Backtester(filepath="BTC-USD.csv", symbol="BTSUSDT", start="2019-01-01",end="2022-01-01", tc=-0.00085)
+test = Long_Short_Backtester(filepath="BTC-GBP.csv", symbol="BTCGBP", start="2020-01-01",end="2022-06-11", tc=-0.00085)
 # print(test.data)
-test.test_strategy(percentiles=(10, 90, 5, 20))
+
+
 test.optimize_strategy(return_low_range = (2, 20, 2),
                         return_high_range = (80, 98, 2), 
                          vol_low_range = (0, 18, 2), 
