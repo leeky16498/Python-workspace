@@ -165,7 +165,7 @@ class LongOnlyTrader():
         print(100 * "-" + "\n")
         
 
-symbol = "BTCGBP"
+symbol = "BTCUSDT"
 bar_length = "1m"
 return_thresh = [-0.08054, 0.3672]
 volume_thresh = [-3, 3]

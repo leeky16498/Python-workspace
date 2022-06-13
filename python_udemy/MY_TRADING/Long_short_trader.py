@@ -186,9 +186,9 @@ class LongShortTrader():
 
 client = Client(api_key = api_key, api_secret = secret_key, tld = "com")
 
-symbol = "BTCGBP"
+symbol = "BTCUSDT"
 bar_length = "1m"
-return_thresh = [-0.08054, 0.3672]
+return_thresh = [-0.001, 0.001672]
 volume_thresh = [-3, 3]
 units = 0.001
 position = 0

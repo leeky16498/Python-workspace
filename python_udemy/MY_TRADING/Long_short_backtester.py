@@ -282,12 +282,12 @@ class Long_Short_Backtester():
             return self.calculate_cagr(series) / self.calculate_annualized_std(series)
         
            
-test = Long_Short_Backtester(filepath="MY_TRADING/BTC-GBP.csv", symbol="BTCGBP", start="2020-01-01",end="2022-06-11", tc=-0.00085)
+test = Long_Short_Backtester(filepath="MY_TRADING/BTC-GBP.csv", symbol="BTCGBP", start="2022-05-31",end="2022-06-11", tc=-0.00085)
 # print(test.data)
 
 
-test.optimize_strategy(return_low_range = (2, 20, 2),
-                        return_high_range = (80, 98, 2), 
+test.optimize_strategy(return_low_range = (2, 20, 1),
+                        return_high_range = (80, 98, 1), 
                          vol_low_range = (0, 18, 2), 
                          vol_high_range = (18, 40, 2),
                          metric = "Sharpe")

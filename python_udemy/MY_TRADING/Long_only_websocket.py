@@ -5,12 +5,12 @@ import numpy as np
 from datetime import datetime, timedelta
 
 ##바이낸스 API
-api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
-secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
+# api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"
+# secret_key = "3VverBNcAfdCrcyFZHt3IHHnQDtToZee7tvyaFQkyjd631Wnb7IuCjjeS0IjAKuu"
 
 ##테스트넷 API
-# api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
-# secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
+api_key = "AWquD2VX7mC8IuB2ufoRYL2CNSNChVXnOEvGqpz657p37uIbYWMOJUzlTeQybtSA"
+secret_key = "MBMdnjdNK6QYKRxer3B6iqHd4NCClEgnTYvG1SgUfKLmaNe9qdeG5fVjETVdHENQ"
 
 class Long_only_trader:
     def __init__(self, symbol, bar_length, return_thresh, volume_thresh, units, position=0):
@@ -46,7 +46,7 @@ class Long_only_trader:
 
         self.data = df
 
-    def start_trading(self, historical_days, symbol="btcgbp", intervals="1m"):
+    def start_trading(self, historical_days, symbol="btcusdt", intervals="1m"):
         cc = symbol
         interval = intervals
         socket = f"wss://stream.binance.com:9443/ws/{cc}@kline_{interval}"
@@ -94,7 +94,7 @@ class Long_only_trader:
         # ******************** define your strategy here ************************
         df = df[["Close", "Volume"]].copy()
         
-        df["returns"] = np.log(df.Close / df.Close.shift())
+        df["returns"] = np.log(df.Close / df.Close.shift(1))
         df["vol_ch"] = np.log(df.Volume.div(df.Volume.shift(1)))
         
         df.loc[df.vol_ch > 3, "vol_ch"] = np.nan
@@ -149,7 +149,7 @@ class Long_only_trader:
         print(100 * "-" + "\n")
 
 ##객체 필요 변수들---
-symbol = "BTCGBP"
+symbol = "BTCUSDT"
 bar_length = "1m"
 return_thresh = 0
 volume_thresh = [-3, 3]
@@ -160,7 +160,7 @@ position = 0
 # client = Client(api_key=api_key, api_secret=secret_key, tld="com")
 
 #테스트넷 직렬
-client = Client(api_key=api_key, api_secret=secret_key, tld="com")
+client = Client(api_key=api_key, api_secret=secret_key, tld="com", testnet=True)
 
 client.get_account()
 
