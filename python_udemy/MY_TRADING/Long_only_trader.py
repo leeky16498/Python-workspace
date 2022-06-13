@@ -1,6 +1,6 @@
 from binance.client import Client
 from binance import ThreadedWebsocketManager
-from matplotlib.pyplot import hist
+from matplotlib.pyplot import plt
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta

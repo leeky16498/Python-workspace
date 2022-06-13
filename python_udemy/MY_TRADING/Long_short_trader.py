@@ -1,9 +1,11 @@
 from binance.client import Client
 from binance import ThreadedWebsocketManager
+from matplotlib.pyplot import hist
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import time
+
 
 ##바이낸스 API
 # api_key = "aQjoZfgE51Tz3vNv3vjAj0SccJEvxZGR1DFSQviVTrh50ENS4C4kaGOGT9Q2vE30"

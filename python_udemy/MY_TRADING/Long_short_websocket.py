@@ -1,9 +1,10 @@
 from binance.client import Client
 from binance import ThreadedWebsocketManager
+from matplotlib.pyplot import hist
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
 import websocket, json
+from datetime import datetime, timedelta
 import time
 
 ##바이낸스 API
