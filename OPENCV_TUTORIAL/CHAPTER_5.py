@@ -1,7 +1,6 @@
 #warp perspective : 이미지중 일부를 잘라서, 매트릭스에 따라 적용하여 보여준다.
 import cv2
 import numpy as np 
-
 img = cv2.imread("/Users/kyungyunlee/Desktop/PYTHON/OPENCV_TUTORIAL/dog.png")
 
 width, height = 100, 120
