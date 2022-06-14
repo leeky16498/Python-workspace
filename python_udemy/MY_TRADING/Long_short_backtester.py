@@ -282,7 +282,8 @@ class Long_Short_Backtester:
             return self.calculate_cagr(series) / self.calculate_annualized_std(series)
         
            
-test = Long_Short_Backtester(filepath="/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/MY_TRADING/BTC-GBP.csv", symbol="BTCGBP", start="2022-05-31",end="2022-06-11", tc=-0.00085)
+test = Long_Short_Backtester(filepath="/Users/kyungyunlee/Desktop/PYTHON/PYTHON_UDEMY/MY_TRADING/BTC-GBP.csv",
+                             symbol="BTCGBP", start="2022-05-31",end="2022-06-11", tc=-0.001)
 # print(test.data)
 
 
