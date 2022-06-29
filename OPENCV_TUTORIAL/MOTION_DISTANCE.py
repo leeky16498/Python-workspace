@@ -5,7 +5,7 @@ cap = cv2.VideoCapture(0)
 
 _, prev = cap.read()
 prev = cv2.flip(prev, 1)
-_, new = cap.read()
+_, new = cap.read()                                                                                       
 new = cv2.flip(new, 1)
 
 
