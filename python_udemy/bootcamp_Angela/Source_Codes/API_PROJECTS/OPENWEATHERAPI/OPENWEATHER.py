@@ -17,20 +17,22 @@ weather_params = {
 
 response = requests.get(OWM_ENDPOINT, params=weather_params)
 weather_data = response.json()
+print(weather_data)
 
-weather_slice = weather_data["hourly"][:12] # 리스트 슬라이싱을 시도한다.
+# weather_slice = weather_data["hourly"][:12] # 리스트 슬라이싱을 시도한다.
 will_rain = False
 
-for hour_data in weather_slice:
-    condition_code = hour_data["weather"][0]["id"]
-    if int(condition_code) < 700:
-        will_rain = True
+# for hour_data in weather_slice:
+#     condition_code = hour_data["weather"][0]["id"]
+#     if int(condition_code) < 700:
+#         will_rain = True
         
 if will_rain:
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
-    message = client.messages.create(
-        body="It's gonna be raining, please check your umbrella!",
-        to="+447413435831"
-        )
+    message = client.messages.create(  
+                              messaging_service_sid='AC7d825129dbb493b9a6847a413997b048', 
+                              body='hi there Lee!',      
+                              to='+447413435831' 
+                          ) 
+    print(message.status)
     
-print(message.status)
