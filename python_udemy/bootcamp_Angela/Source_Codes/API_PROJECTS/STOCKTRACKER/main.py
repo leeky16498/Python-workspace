@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime, timedelta
+from twilio.rest import Client
 
 now = datetime.now()
 now = now.date()
@@ -12,6 +13,8 @@ STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 STOCK_API_KEY = "1XFJ9WQW3KRQOUFU"
 NEWS_API_KEY = "f3ca7ffbf6294c20bd64db7ba5ff8d04"
+ACCOUNT_SID = "AC7d825129dbb493b9a6847a413997b048"
+AUTH_TOKEN = "38274575c6c7a10c4125021498068642"
 
 ## STEP 1: Use https://www.alphavantage.co
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
@@ -57,11 +60,16 @@ if percentage > 5 or percentage < -5:
 else:
     finding_article(COMPANY_NAME)
 
-
 ## STEP 3: Use https://www.twilio.com
 # Send a seperate message with the percentage change and each article's title and description to your phone number. 
+client = Client(ACCOUNT_SID, AUTH_TOKEN)
+message = client.messages.create(
+    from_="+19805528755",
+    to="+447413435831",
+    body = "Hi! Are you there kyungyun?",
+)
 
-
+print(message.sid)
 #Optional: Format the SMS message like this: 
 """
 TSLA: 🔺2%
