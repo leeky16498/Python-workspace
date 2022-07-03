@@ -18,7 +18,7 @@ AUTH_TOKEN = "38274575c6c7a10c4125021498068642"
 
 ## STEP 1: Use https://www.alphavantage.co
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
-
+    
 stock_params = {
     "function" : "TIME_SERIES_DAILY",
     "symbol" : STOCK,
