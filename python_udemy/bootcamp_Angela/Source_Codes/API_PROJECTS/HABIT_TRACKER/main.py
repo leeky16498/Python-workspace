@@ -58,7 +58,7 @@ post_headers = {
 # data = r.json()
 # print(data)
 
-update_endpoint = f"{PIXELA_ENDPOINT}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime("%Y%m%d")}"
+# update_endpoint = f"{PIXELA_ENDPOINT}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime("%Y%m%d")}"
 
 new_pixel_data = {
     "quantity" : "4.5"
