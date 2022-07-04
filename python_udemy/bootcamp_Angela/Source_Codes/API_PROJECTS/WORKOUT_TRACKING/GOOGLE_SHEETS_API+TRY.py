@@ -36,8 +36,9 @@ print(wks.cell(3, 4).value)
 print(wks.get('A7:E9'))
 print(wks.get_all_records())
 
-wks.update('A3', 'Lee')
-wks.update('D2:E3', [["Engineering, Tennis"], ["Business", "Poetry"]])
-wks.update('F2', '=UPPER(E2)', raw=False)
+wks.append_row(["Lee", 17, 38])
+# wks.update('A3', 'Lee')
+# wks.update('D2:E3', [["Engineering, Tennis"], ["Business", "Poetry"]])
+# wks.update('F2', '=UPPER(E2)', raw=False)
 
-wks.delete_rows(25)
+# wks.delete_rows(25)
