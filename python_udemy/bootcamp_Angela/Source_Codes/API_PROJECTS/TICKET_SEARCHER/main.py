@@ -2,6 +2,7 @@ from email import message
 import requests
 import gspread
 from twilio.rest import Client
+from FLIGHT_DATA import FlightData
 
 #0. constants ---------------
 KIWI_API_KEY = "ZG_Y95H5byN-t9BYotdNNL8NL7dazbtz"
@@ -33,9 +34,13 @@ def search_citycode(city_name):
     data = r.json()
     return data["locations"][0]["code"]
 
+flight_data = FlightData()
+flight_data.search_filght("PAR")
+
 for i in range(len(all_places)):
     wks.update('B{}'.format(i+2), search_citycode(all_places[i]["City"]))
-    
+
+
 
 # 2. twilio environment setting 
 # client = Client(ACCOUNT_SID, AUTH_TOKEN)
