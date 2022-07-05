@@ -11,5 +11,3 @@ class DrawGraph:
         plt.ylabel('vertical pixel changes')
         # plt.grid()
         plt.show()
-
-graph = DrawGraph()
