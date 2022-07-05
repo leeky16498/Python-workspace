@@ -1,7 +1,7 @@
 import cv2
 import numpy as np 
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('/Users/kyungyunlee/Desktop/PYTHON/THESIS_EXAMPLES/TEST_VIDEO.h264')
 
 _, prev = cap.read()
 prev = cv2.flip(prev, 1)
