@@ -1,4 +1,3 @@
-from encodings import search_function
 import requests 
 from datetime import datetime, timedelta
 
@@ -35,7 +34,5 @@ class FlightData:
         r = requests.get(url=ticket_endpoint, params=ticket_params, headers=headers)
         r.raise_for_status()
         data = r.json()
-        
-        print(data["data"][0])
-        
+      
         return data["data"][0]["price"]

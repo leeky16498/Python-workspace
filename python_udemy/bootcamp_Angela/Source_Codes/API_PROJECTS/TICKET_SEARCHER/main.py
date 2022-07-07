@@ -16,7 +16,6 @@ sh = sa.open("Flight Deals")
 wks = sh.worksheet("prices")
 all_places = wks.get_all_records()
 
-
 #2. searching air tickets with tequila
 
 def search_citycode(city_name):
@@ -40,7 +39,11 @@ flight_data.search_filght("PAR")
 for i in range(len(all_places)):
     wks.update('B{}'.format(i+2), search_citycode(all_places[i]["City"]))
 
-
+for value in all_places:
+    if flight_data.search_filght(value["IATA Code"]) < value["Lowest Price"]:
+        print("This is your pass : {} -> {}".format("London", value["IATA Code"]))
+    else:
+        print("There is no pass for you. : {} -> {}".format("London", value["IATA Code"]))
 
 # 2. twilio environment setting 
 # client = Client(ACCOUNT_SID, AUTH_TOKEN)
