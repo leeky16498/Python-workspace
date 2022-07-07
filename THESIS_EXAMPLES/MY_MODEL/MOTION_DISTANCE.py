@@ -4,7 +4,7 @@ import csv
 from datetime import datetime
 from GRAPH_PLOTTER import DrawGraph
 
-cap = cv2.VideoCapture('/Users/kyungyunlee/Desktop/PYTHON/THESIS_EXAMPLES/MY_MODEL/TEST_VIDEO_5.h264')
+cap = cv2.VideoCapture(0)
 field_name = ["x_value", "y_value"]
 
 with open('data.csv', 'w') as csv_file:
@@ -62,4 +62,5 @@ while True:
 cap.release()
 cv2.destroyAllWindows()
 graph = DrawGraph()
+graph.time_pixeldata()
 graph.draw_frequency()
