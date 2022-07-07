@@ -25,18 +25,12 @@ while True:
 	thresh = cv2.dilate(thresh, None, 3)
 	thresh = cv2.erode(thresh, np.ones((4,4)), 1)
 	contor,_ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-	# cv2.circle(prev, (200,200), 5, (0,0,255), 10)
 	now = datetime.now()
  
 	for contors in contor:				
 		if cv2.contourArea(contors) > 10000:
-			(x,y,w,h) = cv2.boundingRect(contors) # 바운드를 찾고 그 요소를 체크한다.
-			# (x1,y1),rad = cv2.minEnclosingCircle(contors) # 중심좌표를 찾는다.
-			# x1 = int(x1)# 각 값을 정수로 변환해주고
-			# y1 = int(y1)
-			# cv2.line(prev, (200,200), (x, y), (255,0,0), 4) # 선을 긋는다.
-			cv2.putText(prev, "current 'Y' coordinate : {}".format(int(y)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
-			# cv2.rectangle(prev, (x,y), (x+w,y+h), (0,255,0), 2) # 사각형을 그려서 움직임이 감지된 영역을 그려준다.
+			(x,y,w,h) = cv2.boundingRect(contors)
+			cv2.putText(prev, "'Y pixel coordinate' : {}".format(int(y)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
 			cv2.circle(prev, (x,y), 5, (0,0,255), 10)
    
 			with open('data.csv', 'a') as csv_file:
@@ -54,9 +48,8 @@ while True:
 	
 	prev = new
 	_, new = cap.read()
-	# new = cv2.flip(new, 1)
 
-	if cv2.waitKey(1) == 27: ## esc키를 누르면 프로그램을 종료한다.
+	if cv2.waitKey(1) == 27:
 		break
 
 cap.release()
