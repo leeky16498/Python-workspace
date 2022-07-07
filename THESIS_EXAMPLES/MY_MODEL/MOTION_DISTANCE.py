@@ -29,7 +29,7 @@ while True:
 	now = datetime.now()
  
 	for contors in contor:				
-		if cv2.contourArea(contors) > 30000:
+		if cv2.contourArea(contors) > 10000:
 			(x,y,w,h) = cv2.boundingRect(contors) # 바운드를 찾고 그 요소를 체크한다.
 			# (x1,y1),rad = cv2.minEnclosingCircle(contors) # 중심좌표를 찾는다.
 			# x1 = int(x1)# 각 값을 정수로 변환해주고
