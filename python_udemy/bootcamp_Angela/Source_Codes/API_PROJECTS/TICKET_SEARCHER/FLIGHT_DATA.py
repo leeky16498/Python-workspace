@@ -22,8 +22,8 @@ class FlightData:
             "fly_to" : fly_to,
             "date_from" : date_from,
             "date_to" : date_to,
-            "nights_in_dst_from" : 7,
-            "nights_in_dst_to" : 28,
+            "nights_in_dst_from" : 1,
+            "nights_in_dst_to" : 31,
             "flight_type" : "round"
         }
 
