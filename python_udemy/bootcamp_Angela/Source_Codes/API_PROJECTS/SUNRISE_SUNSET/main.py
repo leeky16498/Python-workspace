@@ -24,6 +24,5 @@ sunset = data["results"]["sunset"].split("T")[1].split(":")[0]
 
 time_now = dt.datetime.now()
 print(time_now)
-
 print(sunrise)
 print(sunset)

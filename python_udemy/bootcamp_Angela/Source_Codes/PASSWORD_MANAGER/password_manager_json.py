@@ -2,7 +2,6 @@ import json
 from tkinter import *
 from tkinter import messagebox
 import random
-import pyperclip
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def password_generated():
