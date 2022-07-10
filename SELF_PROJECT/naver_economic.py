@@ -10,12 +10,12 @@ CLIENT_SECRET = "Zow_vh_uXo"
 API_ENDPOINT = "https://openapi.naver.com/v1/search/news.json"
 MY_EMAIL = "leeky16498@gmail.com"
 MY_PASSWORD = "tfcawoypiogozmwh"
-MAIL_SUBJECT = "하루 시작하며 봐야할 경제 및 기업뉴스 20개 (from. 남편, {}])".format(now)
+MAIL_SUBJECT = "하루 시작하며 봐야할 경제 및 기업뉴스 20개 (from. 남편, {})".format(now)
 
 API_PARAMS = {
-    'query' : '경제 기업',
-    'display' : 20,
-    'start' : 1,
+    'query' : '산업 미래 투자',
+    'display' : 100,
+    'start' : 1000,
     'sort' : "sim"
 }
 
@@ -27,12 +27,18 @@ API_headers = {
 r = requests.get(url=API_ENDPOINT, params=API_PARAMS, headers=API_headers)
 r.raise_for_status()
 data = r.json()
+# print(data)
+
+# for value in data["items"]:
+#     if "sid=101" in value["link"]:
+#         print(value)
 count = 1
-str = "오늘의 경제 및 기업관련 20개 네이버 뉴스\n\n"
+str = "오늘의 <산업, 미래, 투자> 관련 20개 뉴스\n\n"
 
 for value in data["items"]:
-    str += '{}. title : {}\nlink : {}\n\n'.format(count, value["title"], value["link"])
-    count += 1
+    if "sid=101" in value["link"]:    
+        str += '{}. title : {}\nlink : {}\ndescription: {}\n\n'.format(count, value["title"], value["link"], value["description"])
+        count += 1
 
 print(str)
 
