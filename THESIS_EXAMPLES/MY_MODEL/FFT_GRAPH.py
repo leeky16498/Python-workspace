@@ -14,6 +14,10 @@ strength = np.fft.fft(signal)
 strength = abs(strength)
 frequency = np.fft.fftfreq(t.size, 0.001)
 
+
+plt.subplot(1, 2, 1)
+plt.plot(t, signal)
+plt.subplot(1, 2, 2)
 plt.plot(frequency, strength)
 plt.xlim(0, 100)
 plt.show()
