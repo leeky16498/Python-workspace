@@ -14,8 +14,7 @@ class DrawGraph:
         plt.show()
     
     def draw_frequency(self):
-        
-        
+        pass
         # ##---------Hz data analysis--------##
         # df = pd.read_csv("/Users/kyungyunlee/Desktop/PYTHON_FOLDER/THESIS_EXAMPLES/data.csv")
         # df["peak_num"] = 0
