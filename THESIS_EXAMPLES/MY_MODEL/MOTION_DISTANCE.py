@@ -3,9 +3,10 @@ import numpy as np
 import csv 
 from datetime import datetime
 from GRAPH_PLOTTER import DrawGraph
+import time
 
-cap = cv2.VideoCapture("/Users/kyungyunlee/Desktop/PYTHON/THESIS_EXAMPLES/MY_MODEL/TEST_VIDEO_10.h264")
-field_name = ["x_value", "y_value"]
+cap = cv2.VideoCapture("/Users/kyungyunlee/Desktop/PYTHON_FOLDER/THESIS_EXAMPLES/MY_MODEL/TEST_VIDEO_8.h264")
+field_name = ["time", "y_value"]
 
 with open('data.csv', 'w') as csv_file:
     csv_writer = csv.DictWriter(csv_file, fieldnames=field_name)
@@ -29,7 +30,7 @@ while True:
 	now = datetime.now()
  
 	for contors in contor:				
-		if cv2.contourArea(contors) > 17000:
+		if cv2.contourArea(contors) > 3000:
 			(x,y,w,h) = cv2.boundingRect(contors) # 바운드를 찾고 그 요소를 체크한다.
 			# (x1,y1),rad = cv2.minEnclosingCircle(contors) # 중심좌표를 찾는다.
 			# x1 = int(x1)# 각 값을 정수로 변환해주고
@@ -43,14 +44,14 @@ while True:
 				csv_writer = csv.DictWriter(csv_file, fieldnames=field_name)
 				
 				info = {
-					'x_value' : (now-old).total_seconds() ,
+					'time' : (now-old).total_seconds() ,
 					'y_value' : int(y)
 				}
 				
 				csv_writer.writerow(info)
-   
-   
-	cv2.imshow("orig", prev)
+    
+	cv2.imshow("Video_vibration", prev)
+	time.sleep(0.1)
 	
 	prev = new
 	_, new = cap.read()
