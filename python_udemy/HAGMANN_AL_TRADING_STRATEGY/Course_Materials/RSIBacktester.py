@@ -146,5 +146,3 @@ class RSIBacktester():
         '''
         opt = brute(self.update_and_run, (periods_range, rsi_upper_range, rsi_lower_range), finish=None)
         return opt, -self.update_and_run(opt)
-    
-    
