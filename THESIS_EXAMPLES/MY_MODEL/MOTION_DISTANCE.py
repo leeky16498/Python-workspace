@@ -33,7 +33,7 @@ while True:
 			# x1 = int(x1)# 각 값을 정수로 변환해주고
 			# y1 = int(y1)
 			# cv2.line(prev, (200,200), (x, y), (255,0,0), 4) # 선을 긋는다.
-			cv2.putText(prev, "current 'Y' coordinate : {}".format(int(y+h)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
+			cv2.putText(prev, "current 'Y' coordinate : {}".format(int(h)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
 			# cv2.rectangle(prev, (x,y), (x+w,y+h), (0,255,0), 2) # 사각형을 그려서 움직임이 감지된 영역을 그려준다.
 			cv2.circle(prev, (x,y+h), 5, (255,0,0), 10)
    
@@ -42,7 +42,7 @@ while True:
 				
 				info = {
 					'time' : (now-old).total_seconds() ,
-					'y_value' : int(y+h)
+					'y_value' : int(h)
 				}
 				
 				csv_writer.writerow(info)
