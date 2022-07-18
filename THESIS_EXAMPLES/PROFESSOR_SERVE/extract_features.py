@@ -82,7 +82,6 @@ def find_fan_center(image, color_image, offset=(0,0)):
 def find_black_spot(image, offset=(0,0)):
     #im = cv2.imread('test.jpg')
     #imgray = cv2.cvtColor(im, cv.COLOR_BGR2GRAY)
-    
     #image[190:320,190:320]=255
     masked = np.zeros_like(image)
     cv2.circle(masked, (250,250),210, 255, -1)

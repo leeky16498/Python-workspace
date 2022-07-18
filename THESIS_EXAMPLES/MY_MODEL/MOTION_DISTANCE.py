@@ -2,10 +2,8 @@ import cv2
 import numpy as np 
 import csv 
 from datetime import datetime
-from GRAPH_PLOTTER import DrawGraph
-import time
 
-cap = cv2.VideoCapture("/Users/kyungyunlee/Desktop/PYTHON_FOLDER/THESIS_EXAMPLES/MY_MODEL/TEST_VIDEO_4.h264")
+cap = cv2.VideoCapture("/Users/kyungyunlee/Desktop/PYTHON_FOLDER/THESIS_EXAMPLES/MY_MODEL/4piece_middle.h264")
 field_name = ["time", "y_value"]
 
 with open('data.csv', 'w') as csv_file:
@@ -26,7 +24,6 @@ while True:
 	thresh = cv2.dilate(thresh, None, 3)
 	thresh = cv2.erode(thresh, np.ones((4,4)), 1)
 	contor,_ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-	# cv2.circle(prev, (200,200), 5, (0,0,255), 10)
 	now = datetime.now()
  
 	for contors in contor:				
@@ -36,22 +33,21 @@ while True:
 			# x1 = int(x1)# 각 값을 정수로 변환해주고
 			# y1 = int(y1)
 			# cv2.line(prev, (200,200), (x, y), (255,0,0), 4) # 선을 긋는다.
-			cv2.putText(prev, "current 'Y' coordinate : {}".format(int(y)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
+			cv2.putText(prev, "current 'Y' coordinate : {}".format(int(y+h)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
 			# cv2.rectangle(prev, (x,y), (x+w,y+h), (0,255,0), 2) # 사각형을 그려서 움직임이 감지된 영역을 그려준다.
-			cv2.circle(prev, (x,y), 5, (255,0,0), 10)
+			cv2.circle(prev, (x,y+h), 5, (255,0,0), 10)
    
 			with open('data.csv', 'a') as csv_file:
 				csv_writer = csv.DictWriter(csv_file, fieldnames=field_name)
 				
 				info = {
 					'time' : (now-old).total_seconds() ,
-					'y_value' : int(y)
+					'y_value' : int(y+h)
 				}
 				
 				csv_writer.writerow(info)
     
 	cv2.imshow("Video_vibration", prev)
-	
 	prev = new
 	_, new = cap.read()
 	# new = cv2.flip(new, 1)
@@ -61,6 +57,3 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
-# graph = DrawGraph()
-# graph.time_pixeldata()
-# graph.draw_frequency()

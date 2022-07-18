@@ -7,7 +7,7 @@ from itertools import count
 from datetime import datetime, timedelta
 from GRAPH_PLOTTER import DrawGraph
 
-cap = cv2.VideoCapture('/Users/kyungyunlee/Desktop/PYTHON/THESIS_EXAMPLES/TEST_VIDEO.h264')
+cap = cv2.VideoCapture('/Users/kyungyunlee/Desktop/PYTHON_FOLDER/THESIS_EXAMPLES/MY_MODEL/Video_0.h264')
 field_name = ["x_value", "y_value"]
 
 with open('data.csv', 'w') as csv_file:
