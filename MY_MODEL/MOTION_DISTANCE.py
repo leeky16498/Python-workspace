@@ -3,10 +3,11 @@ import numpy as np
 import csv 
 from datetime import datetime
 
-cap = cv2.VideoCapture("/Users/kyungyunlee/Desktop/ IRP reference/Videos/0piece_middle.h264")
+VIDEO_NAME = "20_piece_middle"
+cap = cv2.VideoCapture("/Users/kyungyunlee/Desktop/ IRP reference/Videos/" + VIDEO_NAME + ".h264")
 field_name = ["time", "y_value"]
 
-with open('data.csv', 'w') as csv_file:
+with open('{}.csv'.format(VIDEO_NAME), 'w') as csv_file:
     csv_writer = csv.DictWriter(csv_file, fieldnames=field_name)
     csv_writer.writeheader()
     
@@ -29,20 +30,15 @@ while True:
 	for contors in contor:				
 		if cv2.contourArea(contors) > 17000:
 			(x,y,w,h) = cv2.boundingRect(contors) # 바운드를 찾고 그 요소를 체크한다.
-			# (x1,y1),rad = cv2.minEnclosingCircle(contors) # 중심좌표를 찾는다.
-			# x1 = int(x1)# 각 값을 정수로 변환해주고
-			# y1 = int(y1)
-			# cv2.line(prev, (200,200), (x, y), (255,0,0), 4) # 선을 긋는다.
-			cv2.putText(prev, "current 'Y' coordinate : {}".format(int(h)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
-			# cv2.rectangle(prev, (x,y), (x+w,y+h), (0,255,0), 2) # 사각형을 그려서 움직임이 감지된 영역을 그려준다.
-			cv2.circle(prev, (x,y), 5, (255,0,0), 10)
+			cv2.putText(prev, "current 'Y' coordinate : {}".format(int(y+h)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
+			cv2.circle(prev, (x,y+h), 5, (255,0,0), 10)
    
-			with open('data.csv', 'a') as csv_file:
+			with open('{}.csv'.format(VIDEO_NAME), 'a') as csv_file:
 				csv_writer = csv.DictWriter(csv_file, fieldnames=field_name)
 				
 				info = {
 					'time' : (now-old).total_seconds() ,
-					'y_value' : int(h)
+					'y_value' : int(y+h)
 				}
 				
 				csv_writer.writerow(info)
@@ -50,7 +46,6 @@ while True:
 	cv2.imshow("Video_vibration", prev)
 	prev = new
 	_, new = cap.read()
-	# new = cv2.flip(new, 1)
 
 	if cv2.waitKey(1) == 27: ## esc키를 누르면 프로그램을 종료한다.
 		break
