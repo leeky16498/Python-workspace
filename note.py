@@ -1,33 +1,23 @@
-import pickle
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.fftpack
 
-courses_rooms = {'CS101':3004, 'CS102':4501, 'CS103':6755, 'NT110':1224,
-                 'CM241':1411}
-courses_instructors = {'CS101':'Haynes','CS102':'Alvarado','CS103':'Rich',
-                      'NT110':'Burke','CM241':'Lee'}
-courses_times = {'CS101':'8:00 a.m.','CS102':'9:00 a.m.','CS103':'10:00 a.m.',
-                'NT110':'11:00 a.m.','CM241':'1:00 p.m.'}
+data = pd.read_csv("/Users/kyungyunlee/Desktop/ IRP reference/Data/PIXEL_DATA/1_piece.csv")
 
+t = data["time"].loc[data["time"] > 5].loc[data["time"] < 10]
+N = len(t)
+s = data["y_value"].loc[data["time"] > 5].loc[data["time"] < 10]
+s = np.array(s)
 
-file = open('classpickle.pickle','wb')
-pickle.dump(courses_rooms, file)
-pickle.dump(courses_instructors, file)
-pickle.dump(courses_times, file)
-file.close()
+# Number of samplepoints
+N = 600
+# sample spacing
+T = 1.0 / 800.0
+x = np.array(t)
+y = np.array(s)
+yf = scipy.fftpack.fft(y)
+xf = np.linspace(0.0, 1.0/(2.0*T), N//2)
 
-course = True
-
-while course == True:
-    course = input('\nEnter a course number or press "q" to quit: ')
-    print(course)
-    
-    if course in courses_rooms.keys():
-        print()
-        print('Room: ',courses_rooms[course])
-        print('Instructor: ',courses_instructors[course])
-        print('Time: ',courses_times[course])
-        
-    elif course == 'q' or 'Q':
-        break
-    
-    else:
-        print("That is not appropriate characters")
+fig, ax = plt.subplots()
+ax.plot(xf, 2.0/N * np.abs(yf[:N//2]))
+plt.show()
