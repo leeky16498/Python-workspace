@@ -3,7 +3,7 @@ import numpy as np
 import csv 
 from datetime import datetime
 
-VIDEO_NAME = "20_piece_middle"
+VIDEO_NAME = "0_piece_middle"
 cap = cv2.VideoCapture("/Users/kyungyunlee/Desktop/ IRP reference/Videos/" + VIDEO_NAME + ".h264")
 field_name = ["time", "y_value"]
 

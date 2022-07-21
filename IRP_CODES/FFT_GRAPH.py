@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 import pandas as pd 
 
-data = pd.read_csv("/Users/kyungyunlee/Desktop/ IRP reference/Data/PIXEL_DATA/20_piece.csv")
+VIDEO_NAME = "0_piece_middle"
+
+data = pd.read_csv("/Users/kyungyunlee/Desktop/ IRP reference/Data/PIXEL_DATA/" + VIDEO_NAME + ".csv")
 
 t = data["time"].loc[data["time"] > 5].loc[data["time"] < 10]
 t = np.array(t)
@@ -32,10 +34,14 @@ plt.title("FFT Graph")
 plt.plot(xf, yf)
 
 max_yf = yf.max()
-index = np.argwhere(yf == max_yf)
+flat = yf.flatten()
+flat.sort()
+index = np.argwhere(yf == flat[-1])
+# index = np.argwhere(yf == max_yf)
 max_xf = xf[index]
 
-plt.vlines(x=max_xf, ymax=yf.max() + 2, ymin=0, colors="gray", label="Main_frequency = {}".format(max_xf[0][0]))
+plt.vlines(x=max_xf, ymax=max_yf + 2, ymin=0, colors="gray", label="Main_frequency = {}".format(max_xf[0][0]))
+plt.legend()
 plt.subplot(1, 2, 2)
 plt.plot(x, s, color='red')
 plt.xlabel("Pixel Amplitude")
