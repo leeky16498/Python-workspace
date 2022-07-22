@@ -7,11 +7,11 @@ VIDEO_NAME = "0_piece_middle"
 
 data = pd.read_csv("/Users/kyungyunlee/Desktop/ IRP reference/Data/PIXEL_DATA/" + VIDEO_NAME + ".csv")
 
-t = data["time"].loc[data["time"] > 5].loc[data["time"] < 10]
+t = data["time"].loc[data["time"] > 12].loc[data["time"] < 18]
 t = np.array(t)
 print(t)
 N = len(t)
-s = data["y_value"].loc[data["time"] > 5].loc[data["time"] < 10]
+s = data["y_value"].loc[data["time"] > 12].loc[data["time"] < 18]
 print(s)
 
 # Number of samplepoints
@@ -26,12 +26,12 @@ yf[0:1] = 0
 yf = 2.0/N * np.abs(yf[:N//2])
 
 plt.figure(figsize=(10, 7))
-
 plt.subplot(1, 2, 1)
 plt.xlabel("Frequency")
 plt.ylabel("Amplitude")
 plt.title("FFT Graph")
 plt.plot(xf, yf)
+plt.legend()
 
 max_yf = yf.max()
 flat = yf.flatten()
@@ -44,7 +44,8 @@ plt.vlines(x=max_xf, ymax=max_yf + 2, ymin=0, colors="gray", label="Main_frequen
 plt.legend()
 plt.subplot(1, 2, 2)
 plt.plot(x, s, color='red')
-plt.xlabel("Pixel Amplitude")
-plt.ylabel("Time")
+plt.legend()
+plt.xlabel("Time")
+plt.ylabel("Amplitude(Pixel)")
 plt.title("Data Graph")
 plt.show()
