@@ -10,7 +10,7 @@ CLIENT_ID = "geleXkjPByfkP9liYJUB"
 CLIENT_SECRET = "Zow_vh_uXo"
 API_ENDPOINT = "https://openapi.naver.com/v1/search/news.json"
 MY_EMAIL = "leeky16498@gmail.com"
-MY_PASSWORD = "tfcawoypiogozmwh"
+MY_PASSWORD = "tfcawoypiogozmwh"  
 MAIL_SUBJECT = "하루 시작하며 봐야할 경제 및 기업뉴스 20개 (from. 남편, {})".format(now)
 ECO_SUBJECT = "Today's world economy news (from. 남편, {})".format(now)
 
