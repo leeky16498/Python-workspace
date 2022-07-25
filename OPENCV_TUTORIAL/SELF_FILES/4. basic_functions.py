@@ -32,4 +32,17 @@ eroded = cv2.erode(canny, (3, 3), iterations=1)
 cv2.imshow('eroded', eroded)
 # 침식시키게 되면 얇아지며 정확한 뼈대를 볼 수 있다.
 
+#6. resize
+resized = cv2.resize(img, (500, 500), interpolation=cv2.INTER_AREA)
+# resized = cv2.resize(img, (1000, 1000), interpolation=cv2.INTER_LINEAR)
+# 만약 사진을 작게하면 인터 에어리어
+# 만약 크게 하면, 인터 리니어나, 인터 큐빅을 쓴다.
+# 튜플값만큼 사진 비율을 무시한 가운데 사이즈가 조정된다.
+cv2.imshow('resized', resized)
+
+#7. crop
+cropped = img[50:100, 40:100]
+cv2.imshow('cropped', cropped)
+# 이미지 잘라내기
+
 cv2.waitKey(0)
