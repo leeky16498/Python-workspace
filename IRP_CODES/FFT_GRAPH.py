@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 import pandas as pd 
 
-VIDEO_NAME = "20_piece"
-PART = 1
-TIME_1 = 2
-TIME_2 = 11
+VIDEO_NAME = "20_piece_middle"
+PART = 6
+TIME_1 = 44
+TIME_2 = 52
 RANK = -1
 
 data = pd.read_csv("/Users/kyungyunlee/Desktop/ IRP reference/Data/PIXEL_DATA/" + VIDEO_NAME + ".csv")
