@@ -3,7 +3,7 @@ import numpy as np
 import csv 
 from datetime import datetime
 
-VIDEO_NAME = "0_piece_middle"
+VIDEO_NAME = "45piece"
 cap = cv2.VideoCapture("/Users/kyungyunlee/Desktop/ IRP reference/Videos/" + VIDEO_NAME + ".h264")
 field_name = ["time", "y_value"]
 
@@ -28,7 +28,7 @@ while True:
 	now = datetime.now()
  
 	for contors in contor:				
-		if cv2.contourArea(contors) > 17000:
+		if cv2.contourArea(contors) > 20000:
 			(x,y,w,h) = cv2.boundingRect(contors) # 바운드를 찾고 그 요소를 체크한다.
 			cv2.putText(prev, "current 'Y' coordinate : {}".format(int(y+h)), (100,100),cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,0), 3)
 			cv2.circle(prev, (x,y+h), 5, (255,0,0), 10)
