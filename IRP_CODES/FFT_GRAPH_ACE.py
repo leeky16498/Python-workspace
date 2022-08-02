@@ -3,10 +3,9 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 import pandas as pd 
 
-VIDEO_NAME = "0_piece"
-PART = 1
-TIME_1 = 43
-TIME_2 = 52
+VIDEO_NAME = "40_piece_ace"
+TIME_1 = 6.2
+TIME_2 = 26
 RANK = -1
 
 data = pd.read_csv("/Users/kyungyunlee/Desktop/ IRP reference/Data/ACE_DATA/" + VIDEO_NAME + ".csv")
@@ -40,9 +39,10 @@ max_xf = xf[index]
 
 # draw_the graph
 plt.figure(figsize=(10, 7))
-plt.suptitle("{}_part_{}".format(VIDEO_NAME, PART), fontsize=16, fontweight="bold")
+plt.suptitle("{}".format(VIDEO_NAME), fontsize=16, fontweight="bold")
 plt.subplot(1, 2, 1)
 plt.xlabel("Frequency")
+plt.xlim(0, 20)
 plt.ylabel("Amplitude")
 plt.title(f"FFT : {max_xf[0][0]}")
 plt.plot(xf, yf)

@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 import pandas as pd 
 
-VIDEO_NAME = "40piece"
-TIME_1 = 6
-TIME_2 = 16
+VIDEO_NAME = "35_piece_ace"
+TIME_1 = 6.28
+TIME_2 = 19
 RANK = -2
 
-data = pd.read_csv("/Users/kyungyunlee/Desktop/" + VIDEO_NAME + ".csv")
+data = pd.read_csv("/Users/kyungyunlee/Desktop/35_piece_ace.csv")
 
 t = data["time"].loc[data["time"] > TIME_1].loc[data["time"] < TIME_2]
 t = np.array(t)
