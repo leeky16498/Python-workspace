@@ -48,6 +48,8 @@ w_i_h = [[random.random() - 0.5 for _ in range(input_count)] for _ in range(hidd
 w_h_o = [[random.random() - 0.5 for _ in range(hidden_count)] for _ in range(output_count)] # 3 output layers
 b_i_h = [0 for _ in range(hidden_count)] # 4 hidden layers
 b_h_o = [0 for _ in range(output_count)] # output layers
+# 랜덤 가중치로 시작한다고 좋은 성과를 기대하기는 어렵다.
+# 에폭과 학습률을 통해서만 모델을 훈련시킬 수 있다.
 
 for epoch in range(epochs):
     pred_h = [[sum([w * a for w, a, in zip(weights, inp)]) + bias for weights, bias in zip(w_i_h, b_i_h)] for inp in  inputs]
