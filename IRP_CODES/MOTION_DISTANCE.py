@@ -12,9 +12,7 @@ with open('{}.csv'.format(VIDEO_NAME), 'w') as csv_file:
     csv_writer.writeheader()
     
 _, prev = cap.read()
-prev = cv2.flip(prev, 1)
 _, new = cap.read()                                                                                       
-new = cv2.flip(new, 1)
 old = datetime.now()
 
 while True:

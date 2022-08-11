@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 import pandas as pd 
 
-VIDEO_NAME = "40_piece_ace"
-TIME_1 = 6.2
-TIME_2 = 26
+VIDEO_NAME = "5_piece_ace"
+TIME_1 = 5
+TIME_2 = 20
 RANK = -1
 
 data = pd.read_csv("/Users/kyungyunlee/Desktop/ IRP reference/Data/ACE_DATA/" + VIDEO_NAME + ".csv")

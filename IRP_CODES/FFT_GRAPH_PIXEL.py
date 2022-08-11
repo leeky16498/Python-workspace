@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 import pandas as pd 
 
-VIDEO_NAME = "35_piece_ace"
-TIME_1 = 6.28
-TIME_2 = 19
-RANK = -2
+VIDEO_NAME = "10_piece_ace"
+TIME_1 = 5
+TIME_2 = 17
+RANK = -1
 
-data = pd.read_csv("/Users/kyungyunlee/Desktop/35_piece_ace.csv")
+data = pd.read_csv("/Users/kyungyunlee/Desktop/ IRP reference/Data/PIXEL_DATA/" + VIDEO_NAME + ".csv")
 
 t = data["time"].loc[data["time"] > TIME_1].loc[data["time"] < TIME_2]
 t = np.array(t)
@@ -33,7 +33,6 @@ flat = yf.flatten()
 flat.sort()
 index = np.argwhere(yf == flat[RANK])
 max_xf = xf[index]
-
 
 # draw a graph
 plt.figure(figsize=(10, 7))
